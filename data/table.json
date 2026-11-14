@@ -1,0 +1,3933 @@
+{
+ "source_file": "Kidney_Med_Checker_Verified_Table_v2.xlsx",
+ "categories": {
+  "OK": {
+   "label": "No change",
+   "headline": "No change needed",
+   "explanation": "You do not need to change this medicine because of your kidneys."
+  },
+  "DOSE": {
+   "label": "Dose check",
+   "headline": "Dose may need adjusting – check with your clinician",
+   "explanation": "Weaker kidneys clear this medicine more slowly. Your doctor or pharmacist may need to lower the dose or space it out."
+  },
+  "ASK": {
+   "label": "Consult doctor",
+   "headline": "Consult your doctor",
+   "explanation": "This may be OK only in some cases. Ask your doctor before you take it."
+  },
+  "AVOID": {
+   "label": "Not recommended",
+   "headline": "Not recommended",
+   "explanation": "It is best not to take this medicine at your kidney level."
+  },
+  "NA": {
+   "label": "Can't assess",
+   "headline": "This cannot be assessed",
+   "explanation": "We don't have enough information to give guidance. Ask your doctor or pharmacist."
+  },
+  "EGFR": {
+   "label": "Needs eGFR",
+   "headline": "(depends on eGFR – see eGFR follow-up column)",
+   "explanation": "The app asks for the eGFR number; see the eGFR follow-up column."
+  }
+ },
+ "safety_message": "Because your doctor prescribed this, do not stop or change it on your own. Call your doctor's office to make sure they know your kidney stage.",
+ "transplant_message": "This cannot be assessed – ask your transplant team",
+ "medicines": {
+  "M01": {
+   "id": "M01",
+   "name": "Ibuprofen",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "AVOID",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Ibuprofen is an NSAID. It is a type of pain medicine that can hurt the kidneys. Do not use it if you are sick, throwing up, or not drinking enough. Acetaminophen (Tylenol) is often a safer choice. Ask your doctor.",
+   "notes_by_result": {}
+  },
+  "M02": {
+   "id": "M02",
+   "name": "Ibuprofen (prescribed)",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "DOSE",
+    "G3a": "DOSE",
+    "G3b": "DOSE",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Ibuprofen is an NSAID. Your doctor should use the lowest dose for the shortest time and may check your kidney blood tests.",
+   "notes_by_result": {}
+  },
+  "M03": {
+   "id": "M03",
+   "name": "Naproxen",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "AVOID",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Naproxen is an NSAID. It is a type of pain medicine that can hurt the kidneys. Do not use it if you are sick, throwing up, or not drinking enough. Acetaminophen (Tylenol) is often a safer choice. Ask your doctor.",
+   "notes_by_result": {}
+  },
+  "M04": {
+   "id": "M04",
+   "name": "Naproxen (prescribed)",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "DOSE",
+    "G3a": "DOSE",
+    "G3b": "DOSE",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Naproxen is an NSAID. Your doctor should use the lowest dose for the shortest time and may check your kidney blood tests.",
+   "notes_by_result": {}
+  },
+  "M05": {
+   "id": "M05",
+   "name": "Meloxicam",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "DOSE",
+    "G3a": "DOSE",
+    "G3b": "DOSE",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Meloxicam is an NSAID, a type of pain medicine that can hurt the kidneys. Your doctor may check your kidney blood tests.",
+   "notes_by_result": {}
+  },
+  "M06": {
+   "id": "M06",
+   "name": "Diclofenac (pills)",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "DOSE",
+    "G3a": "DOSE",
+    "G3b": "DOSE",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Diclofenac is an NSAID, a type of pain medicine that can hurt the kidneys. Your doctor may check your kidney blood tests.",
+   "notes_by_result": {}
+  },
+  "M07": {
+   "id": "M07",
+   "name": "Diclofenac gel",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   },
+   "egfr_followup": null,
+   "note": "Diclofenac gel is an NSAID rubbed on the skin. Less reaches the blood than with pills, but ask your doctor first if you have kidney disease.",
+   "notes_by_result": {}
+  },
+  "M08": {
+   "id": "M08",
+   "name": "Celecoxib",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "DOSE",
+    "G3a": "DOSE",
+    "G3b": "DOSE",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Celecoxib is an NSAID-type pain medicine that can hurt the kidneys. Your doctor may check your kidney blood tests.",
+   "notes_by_result": {}
+  },
+  "M09": {
+   "id": "M09",
+   "name": "Aspirin – high dose (325 mg or more)",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "AVOID",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Aspirin at pain doses (325 mg or more) acts like an NSAID. It can hurt the kidneys and cause bleeding.",
+   "notes_by_result": {}
+  },
+  "M10": {
+   "id": "M10",
+   "name": "Aspirin – low dose (81 mg), self-started",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   },
+   "egfr_followup": null,
+   "note": "Low-dose aspirin (81 mg) is usually safe for the kidneys. It can raise the risk of bleeding, so tell your doctor you take it.",
+   "notes_by_result": {}
+  },
+  "M11": {
+   "id": "M11",
+   "name": "Aspirin – low dose (81 mg), doctor recommended",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   },
+   "egfr_followup": null,
+   "note": "Keep taking it the way your doctor told you.",
+   "notes_by_result": {}
+  },
+  "M12": {
+   "id": "M12",
+   "name": "Acetaminophen",
+   "applies": "Any",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   },
+   "egfr_followup": null,
+   "note": "Usually the safest pain medicine for the kidneys. Do not take more than 3,000 mg a day unless your doctor says so. Many cold and sleep products also have acetaminophen in them. Count those too.",
+   "notes_by_result": {}
+  },
+  "M13": {
+   "id": "M13",
+   "name": "Magnesium hydroxide",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "AVOID",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Weak kidneys can't get rid of extra magnesium well. Too much magnesium can make you weak and cause heart rhythm problems.",
+   "notes_by_result": {}
+  },
+  "M14": {
+   "id": "M14",
+   "name": "Magnesium citrate",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "AVOID",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Weak kidneys can't get rid of extra magnesium well. Too much magnesium can make you weak and cause heart rhythm problems.",
+   "notes_by_result": {}
+  },
+  "M15": {
+   "id": "M15",
+   "name": "Aluminum / magnesium antacid",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "AVOID",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "These antacids have magnesium and aluminum in them. Both can build up when the kidneys are weak.",
+   "notes_by_result": {}
+  },
+  "M16": {
+   "id": "M16",
+   "name": "Sodium phosphate enema or bowel prep",
+   "applies": "Any",
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "AVOID",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Phosphate products can cause sudden kidney damage. Ask your doctor about a choice that has no phosphate.",
+   "notes_by_result": {}
+  },
+  "M17": {
+   "id": "M17",
+   "name": "Pseudoephedrine",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Usually fine with mild kidney disease. If your kidneys work less well, high doses taken for a long time can cause confusion. Some Sudafed products (Sudafed PE) have phenylephrine, which can raise blood pressure. Ask your doctor first if you have high blood pressure.",
+   "notes_by_result": {}
+  },
+  "M18": {
+   "id": "M18",
+   "name": "Vitamin C supplements",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "A daily multivitamin is usually fine. If your kidneys are weak, ask your doctor before you take extra vitamin C. High doses can build up.",
+   "notes_by_result": {
+    "ASK": "High dose may be unsafe. Ask your doctor for dose guidance."
+   }
+  },
+  "M19": {
+   "id": "M19",
+   "name": "Vitamin D supplements (not prescribed)",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "A daily multivitamin is usually fine. If your kidneys are weak, ask your doctor before you take extra vitamin D. High doses can build up.",
+   "notes_by_result": {
+    "ASK": "High dose may be unsafe. Ask your doctor for dose guidance."
+   }
+  },
+  "M20": {
+   "id": "M20",
+   "name": "Vitamin D – prescribed",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   },
+   "egfr_followup": null,
+   "note": "Take it the way your doctor prescribed.",
+   "notes_by_result": {}
+  },
+  "M21": {
+   "id": "M21",
+   "name": "Vitamin A supplements",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "A daily multivitamin is usually fine. If your kidneys are weak, ask your doctor before you take extra vitamin A. High doses can build up.",
+   "notes_by_result": {
+    "ASK": "High dose may be unsafe. Ask your doctor for dose guidance."
+   }
+  },
+  "M22": {
+   "id": "M22",
+   "name": "Gabapentin",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "DOSE",
+    "G3b": "DOSE",
+    "G4": "DOSE",
+    "G5": "DOSE",
+    "Dialysis": "DOSE",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Weak kidneys clear gabapentin slowly. A normal dose can build up and cause sleepiness, dizziness, or falls.",
+   "notes_by_result": {}
+  },
+  "M23": {
+   "id": "M23",
+   "name": "Pregabalin",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "DOSE",
+    "G3b": "DOSE",
+    "G4": "DOSE",
+    "G5": "DOSE",
+    "Dialysis": "DOSE",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Weak kidneys clear pregabalin slowly. A normal dose can build up and cause sleepiness, dizziness, or falls.",
+   "notes_by_result": {}
+  },
+  "M24": {
+   "id": "M24",
+   "name": "Oxycodone",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "DOSE",
+    "G3b": "DOSE",
+    "G4": "DOSE",
+    "G5": "DOSE",
+    "Dialysis": "DOSE",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Oxycodone can build up when the kidneys are weak. This can cause too much sleepiness or slow breathing.",
+   "notes_by_result": {}
+  },
+  "M25": {
+   "id": "M25",
+   "name": "Tramadol",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "DOSE",
+    "G5": "DOSE",
+    "Dialysis": "DOSE",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Tramadol can build up when the kidneys are weak. This raises the risk of seizures and sleepiness.",
+   "notes_by_result": {}
+  },
+  "M26": {
+   "id": "M26",
+   "name": "Meperidine",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "AVOID",
+    "G3b": "AVOID",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "When the kidneys are weak, a breakdown product of meperidine builds up. It can cause seizures.",
+   "notes_by_result": {}
+  },
+  "M27": {
+   "id": "M27",
+   "name": "Codeine",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "AVOID",
+    "G3b": "AVOID",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "When the kidneys are weak, codeine breakdown products build up. They can cause too much sleepiness.",
+   "notes_by_result": {}
+  },
+  "M28": {
+   "id": "M28",
+   "name": "Morphine",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "DOSE",
+    "G3a": "DOSE",
+    "G3b": "DOSE",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "When the kidneys are weak, morphine breakdown products build up. They can cause too much sleepiness or slow breathing.",
+   "notes_by_result": {}
+  },
+  "M29": {
+   "id": "M29",
+   "name": "Baclofen",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "DOSE",
+    "G3b": "DOSE",
+    "G4": "DOSE",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Baclofen builds up when the kidneys are weak. It can cause confusion or heavy sleepiness.",
+   "notes_by_result": {}
+  },
+  "M30": {
+   "id": "M30",
+   "name": "Duloxetine",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Duloxetine builds up when the kidneys are very weak.",
+   "notes_by_result": {}
+  },
+  "M31": {
+   "id": "M31",
+   "name": "Trimethoprim-sulfamethoxazole",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "DOSE",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "ASK",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Your dose may need to be lower. This antibiotic can also raise potassium, so your doctor may check your blood work.",
+   "notes_by_result": {}
+  },
+  "M32": {
+   "id": "M32",
+   "name": "Ciprofloxacin",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "DOSE",
+    "G4": "DOSE",
+    "G5": "DOSE",
+    "Dialysis": "DOSE",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Weak kidneys clear this antibiotic more slowly. The dose may need to be lower.",
+   "notes_by_result": {}
+  },
+  "M33": {
+   "id": "M33",
+   "name": "Levofloxacin",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "DOSE",
+    "G4": "DOSE",
+    "G5": "DOSE",
+    "Dialysis": "DOSE",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Weak kidneys clear this antibiotic more slowly. The dose may need to be lower.",
+   "notes_by_result": {}
+  },
+  "M34": {
+   "id": "M34",
+   "name": "Nitrofurantoin",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "EGFR",
+    "G3b": "AVOID",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": {
+    "threshold": 50.0,
+    "at_or_above": "OK",
+    "below": "AVOID",
+    "unknown": "ASK"
+   },
+   "note": "This antibiotic treats urine infections. When the kidneys are weak, it may not work well and can cause side effects.",
+   "notes_by_result": {}
+  },
+  "M35": {
+   "id": "M35",
+   "name": "Valacyclovir",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "DOSE",
+    "G3b": "DOSE",
+    "G4": "DOSE",
+    "G5": "DOSE",
+    "Dialysis": "DOSE",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Too much valacyclovir can cause confusion in people with weak kidneys. The dose may need to be lower.",
+   "notes_by_result": {}
+  },
+  "M36": {
+   "id": "M36",
+   "name": "Metformin",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "DOSE",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "If your kidneys work less well, metformin should not be started. People who already take it may need a lower dose. Below eGFR 30, it should not be used.",
+   "notes_by_result": {}
+  },
+  "M37": {
+   "id": "M37",
+   "name": "Glyburide",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "DOSE",
+    "G3b": "DOSE",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Glyburide can build up when the kidneys are weak. This can make your blood sugar drop too low, which can be dangerous.",
+   "notes_by_result": {}
+  },
+  "M38": {
+   "id": "M38",
+   "name": "SGLT2 inhibitors",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "EGFR",
+    "G5": "ASK",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": {
+    "threshold": 25.0,
+    "at_or_above": "OK",
+    "below": "ASK",
+    "unknown": "ASK"
+   },
+   "note": "These medicines protect the kidneys and heart for many people. With very low kidney function, ask your doctor whether you should keep taking it. They are not used on dialysis.",
+   "notes_by_result": {}
+  },
+  "M39": {
+   "id": "M39",
+   "name": "Emtricitabine / tenofovir DF",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Tenofovir can harm the kidneys. Whether it is OK depends on why you take it (HIV treatment or PrEP), so ask your doctor.",
+   "notes_by_result": {}
+  },
+  "M40": {
+   "id": "M40",
+   "name": "Allopurinol",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "DOSE",
+    "G4": "DOSE",
+    "G5": "DOSE",
+    "Dialysis": "DOSE",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "If your kidneys are weak, you will most likely start allopurinol at a low dose.",
+   "notes_by_result": {}
+  },
+  "M41": {
+   "id": "M41",
+   "name": "Colchicine",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "DOSE",
+    "G5": "DOSE",
+    "Dialysis": "DOSE",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Colchicine can build up when the kidneys are weak. Some other medicines also make it build up. Tell your pharmacist about everything you take.",
+   "notes_by_result": {}
+  },
+  "M42": {
+   "id": "M42",
+   "name": "Lithium",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "DOSE",
+    "G3a": "DOSE",
+    "G3b": "DOSE",
+    "G4": "DOSE",
+    "G5": "DOSE",
+    "Dialysis": "DOSE",
+    "Transplant": "NA",
+    "Unknown": "DOSE"
+   },
+   "egfr_followup": null,
+   "note": "Lithium can harm the kidneys over time and builds up when they are weak. You need regular blood tests.",
+   "notes_by_result": {}
+  },
+  "M43": {
+   "id": "M43",
+   "name": "Phenylephrine",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Phenylephrine is a decongestant that can raise blood pressure. Ask your doctor first if you have high blood pressure. With lower kidney function, ask your doctor before taking it.",
+   "notes_by_result": {}
+  },
+  "M44": {
+   "id": "M44",
+   "name": "Metformin (not prescribed)",
+   "applies": "Self",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "ASK",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Do not start metformin at this kidney stage unless your doctor says so.",
+   "notes_by_result": {}
+  },
+  "M45": {
+   "id": "M45",
+   "name": "Acyclovir",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "DOSE",
+    "G5": "DOSE",
+    "Dialysis": "DOSE",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Too much acyclovir can cause confusion in people with weak kidneys. The dose may need to be lower.",
+   "notes_by_result": {}
+  },
+  "M46": {
+   "id": "M46",
+   "name": "Emtricitabine / tenofovir alafenamide (TAF)",
+   "applies": "Prescribed",
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "DOSE",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   },
+   "egfr_followup": null,
+   "note": "Descovy (TAF) is the newer form of tenofovir. It is easier on the kidneys than the older form (Truvada, also called TDF).",
+   "notes_by_result": {}
+  }
+ },
+ "families": [
+  {
+   "key": "ibuprofen",
+   "label": "Ibuprofen",
+   "rows": [
+    "M01",
+    "M02"
+   ],
+   "aliases": [
+    {
+     "display": "Advil",
+     "search": [
+      "Advil"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Motrin",
+     "search": [
+      "Motrin"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Motrin 400/600/800 mg",
+     "search": [
+      "Motrin 400/600/800 mg"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": [
+    "ibuprofen"
+   ]
+  },
+  {
+   "key": "naproxen",
+   "label": "Naproxen",
+   "rows": [
+    "M03",
+    "M04"
+   ],
+   "aliases": [
+    {
+     "display": "Aleve",
+     "search": [
+      "Aleve"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Naprosyn",
+     "search": [
+      "Naprosyn"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Anaprox",
+     "search": [
+      "Anaprox"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": [
+    "naproxen"
+   ]
+  },
+  {
+   "key": "meloxicam",
+   "label": "Meloxicam",
+   "rows": [
+    "M05"
+   ],
+   "aliases": [
+    {
+     "display": "Mobic",
+     "search": [
+      "Mobic"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": [
+    "meloxicam"
+   ]
+  },
+  {
+   "key": "diclofenac",
+   "label": "Diclofenac (pills)",
+   "rows": [
+    "M06"
+   ],
+   "aliases": [
+    {
+     "display": "Cataflam",
+     "search": [
+      "Cataflam"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Zorvolex",
+     "search": [
+      "Zorvolex"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Cambia",
+     "search": [
+      "Cambia"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": [
+    "diclofenac"
+   ]
+  },
+  {
+   "key": "diclofenac gel",
+   "label": "Diclofenac gel",
+   "rows": [
+    "M07"
+   ],
+   "aliases": [
+    {
+     "display": "Voltaren Arthritis Pain gel",
+     "search": [
+      "Voltaren Arthritis Pain gel"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": [
+    "diclofenac"
+   ]
+  },
+  {
+   "key": "celecoxib",
+   "label": "Celecoxib",
+   "rows": [
+    "M08"
+   ],
+   "aliases": [
+    {
+     "display": "Celebrex",
+     "search": [
+      "Celebrex"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": [
+    "celecoxib"
+   ]
+  },
+  {
+   "key": "aspirin",
+   "label": "Aspirin – high dose (325 mg or more)",
+   "rows": [
+    "M09"
+   ],
+   "aliases": [
+    {
+     "display": "Bayer regular/extra strength",
+     "search": [
+      "Bayer regular/extra strength"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Ecotrin regular strength",
+     "search": [
+      "Ecotrin regular strength"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": [
+    "aspirin"
+   ]
+  },
+  {
+   "key": "aspirin – low dose",
+   "label": "Aspirin – low dose (81 mg)",
+   "rows": [
+    "M10",
+    "M11"
+   ],
+   "aliases": [
+    {
+     "display": "Baby aspirin",
+     "search": [
+      "Baby aspirin"
+     ],
+     "contains": [
+      "aspirin"
+     ]
+    },
+    {
+     "display": "Bayer Low Dose",
+     "search": [
+      "Bayer Low Dose"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": [
+    "aspirin"
+   ]
+  },
+  {
+   "key": "acetaminophen",
+   "label": "Acetaminophen",
+   "rows": [
+    "M12"
+   ],
+   "aliases": [
+    {
+     "display": "Tylenol",
+     "search": [
+      "Tylenol"
+     ],
+     "contains": [
+      "acetaminophen"
+     ]
+    }
+   ],
+   "contains": [
+    "acetaminophen"
+   ]
+  },
+  {
+   "key": "magnesium hydroxide",
+   "label": "Magnesium hydroxide",
+   "rows": [
+    "M13"
+   ],
+   "aliases": [
+    {
+     "display": "Milk of Magnesia",
+     "search": [
+      "Milk of Magnesia"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Phillips'",
+     "search": [
+      "Phillips'"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "magnesium citrate",
+   "label": "Magnesium citrate",
+   "rows": [
+    "M14"
+   ],
+   "aliases": [
+    {
+     "display": "Citroma",
+     "search": [
+      "Citroma"
+     ],
+     "contains": []
+    },
+    {
+     "display": "magnesium citrate laxative",
+     "search": [
+      "magnesium citrate laxative"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "aluminum / magnesium antacid",
+   "label": "Aluminum / magnesium antacid",
+   "rows": [
+    "M15"
+   ],
+   "aliases": [
+    {
+     "display": "Maalox",
+     "search": [
+      "Maalox"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Mylanta",
+     "search": [
+      "Mylanta"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "sodium phosphate enema or bowel prep",
+   "label": "Sodium phosphate enema or bowel prep",
+   "rows": [
+    "M16"
+   ],
+   "aliases": [
+    {
+     "display": "Fleet enema",
+     "search": [
+      "Fleet enema"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Fleet Phospho-soda",
+     "search": [
+      "Fleet Phospho-soda"
+     ],
+     "contains": []
+    },
+    {
+     "display": "OsmoPrep",
+     "search": [
+      "OsmoPrep"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "pseudoephedrine",
+   "label": "Pseudoephedrine",
+   "rows": [
+    "M17"
+   ],
+   "aliases": [
+    {
+     "display": "Sudafed",
+     "search": [
+      "Sudafed"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "vitamin c",
+   "label": "Vitamin C supplements",
+   "rows": [
+    "M18"
+   ],
+   "aliases": [
+    {
+     "display": "Vitamin C supplements",
+     "search": [
+      "Vitamin C supplements"
+     ],
+     "contains": []
+    },
+    {
+     "display": "multivitamin",
+     "search": [
+      "multivitamin"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "vitamin d",
+   "label": "Vitamin D",
+   "rows": [
+    "M19",
+    "M20"
+   ],
+   "aliases": [
+    {
+     "display": "Vitamin D3 supplements",
+     "search": [
+      "Vitamin D3 supplements"
+     ],
+     "contains": []
+    },
+    {
+     "display": "multivitamin",
+     "search": [
+      "multivitamin"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Ergocalciferol",
+     "search": [
+      "Ergocalciferol",
+      "Drisdol"
+     ],
+     "contains": []
+    },
+    {
+     "display": "calcitriol",
+     "search": [
+      "calcitriol"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "vitamin a",
+   "label": "Vitamin A supplements",
+   "rows": [
+    "M21"
+   ],
+   "aliases": [
+    {
+     "display": "Vitamin A supplements",
+     "search": [
+      "Vitamin A supplements"
+     ],
+     "contains": []
+    },
+    {
+     "display": "multivitamin",
+     "search": [
+      "multivitamin"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "gabapentin",
+   "label": "Gabapentin",
+   "rows": [
+    "M22"
+   ],
+   "aliases": [
+    {
+     "display": "Neurontin",
+     "search": [
+      "Neurontin"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Gralise",
+     "search": [
+      "Gralise"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "pregabalin",
+   "label": "Pregabalin",
+   "rows": [
+    "M23"
+   ],
+   "aliases": [
+    {
+     "display": "Lyrica",
+     "search": [
+      "Lyrica"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "oxycodone",
+   "label": "Oxycodone",
+   "rows": [
+    "M24"
+   ],
+   "aliases": [
+    {
+     "display": "Roxicodone",
+     "search": [
+      "Roxicodone"
+     ],
+     "contains": []
+    },
+    {
+     "display": "OxyContin",
+     "search": [
+      "OxyContin"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Percocet",
+     "search": [
+      "Percocet"
+     ],
+     "contains": [
+      "acetaminophen"
+     ]
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "tramadol",
+   "label": "Tramadol",
+   "rows": [
+    "M25"
+   ],
+   "aliases": [
+    {
+     "display": "Ultram",
+     "search": [
+      "Ultram"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "meperidine",
+   "label": "Meperidine",
+   "rows": [
+    "M26"
+   ],
+   "aliases": [
+    {
+     "display": "Demerol",
+     "search": [
+      "Demerol"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "codeine",
+   "label": "Codeine",
+   "rows": [
+    "M27"
+   ],
+   "aliases": [
+    {
+     "display": "Tylenol #3",
+     "search": [
+      "Tylenol #3"
+     ],
+     "contains": [
+      "acetaminophen"
+     ]
+    },
+    {
+     "display": "codeine cough syrup",
+     "search": [
+      "codeine cough syrup"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "morphine",
+   "label": "Morphine",
+   "rows": [
+    "M28"
+   ],
+   "aliases": [
+    {
+     "display": "MS Contin",
+     "search": [
+      "MS Contin"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "baclofen",
+   "label": "Baclofen",
+   "rows": [
+    "M29"
+   ],
+   "aliases": [
+    {
+     "display": "Lioresal",
+     "search": [
+      "Lioresal"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Ozobax",
+     "search": [
+      "Ozobax"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Lyvispah",
+     "search": [
+      "Lyvispah"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "duloxetine",
+   "label": "Duloxetine",
+   "rows": [
+    "M30"
+   ],
+   "aliases": [
+    {
+     "display": "Cymbalta",
+     "search": [
+      "Cymbalta"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "trimethoprim-sulfamethoxazole",
+   "label": "Trimethoprim-sulfamethoxazole",
+   "rows": [
+    "M31"
+   ],
+   "aliases": [
+    {
+     "display": "Bactrim",
+     "search": [
+      "Bactrim"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Septra",
+     "search": [
+      "Septra"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "ciprofloxacin",
+   "label": "Ciprofloxacin",
+   "rows": [
+    "M32"
+   ],
+   "aliases": [
+    {
+     "display": "Cipro",
+     "search": [
+      "Cipro"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "levofloxacin",
+   "label": "Levofloxacin",
+   "rows": [
+    "M33"
+   ],
+   "aliases": [
+    {
+     "display": "Levaquin",
+     "search": [
+      "Levaquin"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "nitrofurantoin",
+   "label": "Nitrofurantoin",
+   "rows": [
+    "M34"
+   ],
+   "aliases": [
+    {
+     "display": "Macrobid",
+     "search": [
+      "Macrobid"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Macrodantin",
+     "search": [
+      "Macrodantin"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "valacyclovir",
+   "label": "Valacyclovir",
+   "rows": [
+    "M35"
+   ],
+   "aliases": [
+    {
+     "display": "Valtrex",
+     "search": [
+      "Valtrex"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "metformin",
+   "label": "Metformin",
+   "rows": [
+    "M36",
+    "M44"
+   ],
+   "aliases": [
+    {
+     "display": "Glucophage",
+     "search": [
+      "Glucophage"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Glumetza",
+     "search": [
+      "Glumetza"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Janumet",
+     "search": [
+      "Janumet"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "glyburide",
+   "label": "Glyburide",
+   "rows": [
+    "M37"
+   ],
+   "aliases": [
+    {
+     "display": "Diabeta",
+     "search": [
+      "Diabeta"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Glynase",
+     "search": [
+      "Glynase"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "sglt2 inhibitors",
+   "label": "SGLT2 inhibitors",
+   "rows": [
+    "M38"
+   ],
+   "aliases": [
+    {
+     "display": "Jardiance",
+     "search": [
+      "Jardiance",
+      "empagliflozin"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Farxiga",
+     "search": [
+      "Farxiga",
+      "dapagliflozin"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Invokana",
+     "search": [
+      "Invokana",
+      "canagliflozin"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "emtricitabine / tenofovir df",
+   "label": "Emtricitabine / tenofovir DF",
+   "rows": [
+    "M39"
+   ],
+   "aliases": [
+    {
+     "display": "Truvada",
+     "search": [
+      "Truvada",
+      "HIV treatment or PrEP"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "allopurinol",
+   "label": "Allopurinol",
+   "rows": [
+    "M40"
+   ],
+   "aliases": [
+    {
+     "display": "Zyloprim",
+     "search": [
+      "Zyloprim"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "colchicine",
+   "label": "Colchicine",
+   "rows": [
+    "M41"
+   ],
+   "aliases": [
+    {
+     "display": "Colcrys",
+     "search": [
+      "Colcrys"
+     ],
+     "contains": []
+    },
+    {
+     "display": "Mitigare",
+     "search": [
+      "Mitigare"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "lithium",
+   "label": "Lithium",
+   "rows": [
+    "M42"
+   ],
+   "aliases": [
+    {
+     "display": "Lithobid",
+     "search": [
+      "Lithobid"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "phenylephrine",
+   "label": "Phenylephrine",
+   "rows": [
+    "M43"
+   ],
+   "aliases": [
+    {
+     "display": "Sudafed PE",
+     "search": [
+      "Sudafed PE"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "acyclovir",
+   "label": "Acyclovir",
+   "rows": [
+    "M45"
+   ],
+   "aliases": [
+    {
+     "display": "Zovirax",
+     "search": [
+      "Zovirax"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  },
+  {
+   "key": "emtricitabine / tenofovir alafenamide",
+   "label": "Emtricitabine / tenofovir alafenamide (TAF)",
+   "rows": [
+    "M46"
+   ],
+   "aliases": [
+    {
+     "display": "Descovy",
+     "search": [
+      "Descovy"
+     ],
+     "contains": []
+    },
+    {
+     "display": "tenofovir alafenamide",
+     "search": [
+      "tenofovir alafenamide"
+     ],
+     "contains": []
+    },
+    {
+     "display": "TAF",
+     "search": [
+      "TAF"
+     ],
+     "contains": []
+    }
+   ],
+   "contains": []
+  }
+ ],
+ "combinations": [
+  {
+   "id": "C01",
+   "product": "Advil Sinus Congestion & Pain",
+   "ingredients": "ibuprofen + phenylephrine",
+   "rules": [
+    "M01",
+    "M43"
+   ],
+   "alert": "It has ibuprofen (an NSAID). It also has phenylephrine, which can raise blood pressure.",
+   "contains": [
+    "ibuprofen"
+   ],
+   "also_search": []
+  },
+  {
+   "id": "C02",
+   "product": "Advil Allergy & Congestion Relief",
+   "ingredients": "ibuprofen + phenylephrine + chlorpheniramine",
+   "rules": [
+    "M01",
+    "M43"
+   ],
+   "alert": "It has ibuprofen (an NSAID). It also has phenylephrine, which can raise blood pressure.",
+   "contains": [
+    "ibuprofen"
+   ],
+   "also_search": []
+  },
+  {
+   "id": "C03",
+   "product": "Advil Cold & Sinus",
+   "ingredients": "ibuprofen + pseudoephedrine",
+   "rules": [
+    "M01",
+    "M17"
+   ],
+   "alert": "It has ibuprofen (an NSAID). It also has pseudoephedrine, which can raise blood pressure.",
+   "contains": [
+    "ibuprofen"
+   ],
+   "also_search": []
+  },
+  {
+   "id": "C04",
+   "product": "Advil PM",
+   "ingredients": "ibuprofen + diphenhydramine",
+   "rules": [
+    "M01"
+   ],
+   "alert": "It has ibuprofen (an NSAID).",
+   "contains": [
+    "ibuprofen"
+   ],
+   "also_search": []
+  },
+  {
+   "id": "C05",
+   "product": "Motrin PM",
+   "ingredients": "ibuprofen + diphenhydramine",
+   "rules": [
+    "M01"
+   ],
+   "alert": "It has ibuprofen (an NSAID).",
+   "contains": [
+    "ibuprofen"
+   ],
+   "also_search": []
+  },
+  {
+   "id": "C06",
+   "product": "Advil Dual Action",
+   "ingredients": "ibuprofen + acetaminophen",
+   "rules": [
+    "M01",
+    "M12"
+   ],
+   "alert": "It has ibuprofen (an NSAID) and acetaminophen.",
+   "contains": [
+    "ibuprofen",
+    "acetaminophen"
+   ],
+   "also_search": []
+  },
+  {
+   "id": "C07",
+   "product": "Aleve PM",
+   "ingredients": "naproxen + diphenhydramine",
+   "rules": [
+    "M03"
+   ],
+   "alert": "It has naproxen (an NSAID).",
+   "contains": [
+    "naproxen"
+   ],
+   "also_search": []
+  },
+  {
+   "id": "C08",
+   "product": "Aleve-D Sinus & Cold",
+   "ingredients": "naproxen + pseudoephedrine",
+   "rules": [
+    "M03",
+    "M17"
+   ],
+   "alert": "It has naproxen (an NSAID). It also has pseudoephedrine, which can raise blood pressure.",
+   "contains": [
+    "naproxen"
+   ],
+   "also_search": []
+  },
+  {
+   "id": "C09",
+   "product": "Excedrin Extra Strength",
+   "ingredients": "acetaminophen + aspirin + caffeine",
+   "rules": [
+    "M09",
+    "M12"
+   ],
+   "alert": "It has aspirin and acetaminophen.",
+   "contains": [
+    "aspirin",
+    "acetaminophen"
+   ],
+   "also_search": []
+  },
+  {
+   "id": "C10",
+   "product": "Anacin",
+   "ingredients": "aspirin + caffeine",
+   "rules": [
+    "M09"
+   ],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [
+    "Acacin"
+   ]
+  },
+  {
+   "id": "C11",
+   "product": "BC Powder",
+   "ingredients": "aspirin + caffeine",
+   "rules": [
+    "M09"
+   ],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": []
+  },
+  {
+   "id": "C12",
+   "product": "Goody's Extra Strength Powder",
+   "ingredients": "aspirin + acetaminophen + caffeine",
+   "rules": [
+    "M09",
+    "M12"
+   ],
+   "alert": "It has aspirin and acetaminophen.",
+   "contains": [
+    "aspirin",
+    "acetaminophen"
+   ],
+   "also_search": []
+  },
+  {
+   "id": "C13",
+   "product": "Alka-Seltzer / Alka-Seltzer Plus",
+   "ingredients": "varies by product – many contain aspirin; some contain acetaminophen",
+   "rules": [
+    "M09"
+   ],
+   "alert": "Many kinds of Alka-Seltzer have aspirin. Look at the 'Active ingredients' box to check.",
+   "contains": [],
+   "also_search": [],
+   "followup": {
+    "question": "Look at the 'Active ingredients' box on the package. Does it list aspirin?",
+    "answers": {
+     "yes": {
+      "code": "ASK",
+      "counts": [
+       "aspirin"
+      ],
+      "maybe": []
+     },
+     "no": {
+      "code": "OK",
+      "counts": [],
+      "maybe": []
+     },
+     "unsure": {
+      "code": "ASK",
+      "counts": [],
+      "maybe": [
+       "aspirin",
+       "acetaminophen"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "id": "C14",
+   "product": "Bayer PM",
+   "ingredients": "aspirin + diphenhydramine",
+   "rules": [
+    "M09"
+   ],
+   "alert": "It has aspirin. It also has an older sleep medicine (diphenhydramine). This can cause confusion or falls in older adults.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "AVOID",
+    "G3b": "AVOID",
+    "G4": "AVOID",
+    "G5": "AVOID",
+    "Dialysis": "AVOID",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "C15",
+   "product": "Sodium phosphate bowel preps",
+   "ingredients": "sodium phosphate (Fleet enema, Fleet Phospho-soda, OsmoPrep)",
+   "rules": [
+    "M16"
+   ],
+   "alert": "It has sodium phosphate.",
+   "contains": [],
+   "also_search": []
+  },
+  {
+   "id": "C16",
+   "product": "Excedrin Migraine",
+   "ingredients": "acetaminophen + aspirin + caffeine",
+   "rules": [
+    "M09",
+    "M12"
+   ],
+   "alert": "It has aspirin and acetaminophen. Use with care.",
+   "contains": [
+    "aspirin",
+    "acetaminophen"
+   ],
+   "also_search": []
+  },
+  {
+   "id": "A01",
+   "product": "ALKA SELTZER COLD Cold and Allergy Maximum Strength Fast Gels",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; DOXYLAMINE SUCCINATE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A02",
+   "product": "Alka Seltzer Cold Cold and Congestion Severe Night Fast Dissolve",
+   "ingredients": "ASPIRIN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A03",
+   "product": "ALKA SELTZER COLD Cold and Cough Fast",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A04",
+   "product": "ALKA SELTZER COLD Cold and Cough Maximum Strength Fast Dissolve",
+   "ingredients": "ASPIRIN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A05",
+   "product": "ALKA SELTZER COLD Cold and Flu plus Congestion Severe Fast Hot Liquid Night",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; DOXYLAMINE SUCCINATE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A06",
+   "product": "ALKA SELTZER COLD Cold and Flu Severe Day Night Fast Dissolve",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A07",
+   "product": "ALKA SELTZER COLD Cold and Flu Severe Fast Chewables",
+   "ingredients": "ACETAMINOPHEN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A08",
+   "product": "ALKA SELTZER COLD Cold and Headache Maximum Strength Fast Dissolve",
+   "ingredients": "ASPIRIN; CHLORPHENIRAMINE MALEATE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A09",
+   "product": "ALKA SELTZER COLD Cold and Headache Maximum Strength Fast Dissolve Orange",
+   "ingredients": "ASPIRIN; CHLORPHENIRAMINE MALEATE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A10",
+   "product": "ALKA SELTZER COLD Cold and Sinus Maximum Strength Day Night Fast Gels",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A11",
+   "product": "ALKA SELTZER COLD Cold and Sinus Maximum Strength Fast Gels",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A12",
+   "product": "ALKA SELTZER COLD Cold Congestion Severe Day Night Fast Dissolve",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A13",
+   "product": "ALKA SELTZER COLD Cold Cough Maximum Strength Fast Gels",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A14",
+   "product": "ALKA SELTZER COLD Cold Flu and Congestion Fast Dissolve",
+   "ingredients": "ACETAMINOPHEN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A15",
+   "product": "ALKA SELTZER COLD Cold Flu and Congestion Maximum Strength Day Night Fast Gels",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A16",
+   "product": "ALKA SELTZER COLD Cold Flu and Congestion Severe Fast Dissolve",
+   "ingredients": "ACETAMINOPHEN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A17",
+   "product": "ALKA SELTZER COLD Cold Flu And Congestion Severe Fast Hot Liquid Day",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; GUAIFENESIN; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A18",
+   "product": "ALKA SELTZER COLD Cold Flu and Congestion Severe Night Fast Gels",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; DOXYLAMINE SUCCINATE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A19",
+   "product": "ALKA SELTZER COLD Cold Flu Congestion Severe Fast Hot Liquid Day Night",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A20",
+   "product": "ALKA SELTZER COLD Cold Flu Severe Fast Dissolve",
+   "ingredients": "ACETAMINOPHEN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A21",
+   "product": "ALKA SELTZER COLD Cold Mucus and Congestion Maximum Strength Day Night Fast Gels",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A22",
+   "product": "Alka Seltzer COLD Cold Mucus Congestion Maximum Strength Fast Gels",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; GUAIFENESIN; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A23",
+   "product": "ALKA SELTZER PLUS Cold Day and Night Effervescent",
+   "ingredients": "ASPIRIN; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A24",
+   "product": "Alka Seltzer Plus Maximum Strength Cough Chest Congestion PowerFast Fizz",
+   "ingredients": "DEXTROMETHORPHAN HYDROBROMIDE; GUAIFENESIN",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A25",
+   "product": "Alka Seltzer Plus Maximum Strength Sinus, Allergy And Cough Power Max Gels",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; DOXYLAMINE SUCCINATE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A26",
+   "product": "Alka-Seltzer",
+   "ingredients": "ASPIRIN",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A27",
+   "product": "Alka-Seltzer Cool Action Extra Strength ReliefChews Mint",
+   "ingredients": "CALCIUM CARBONATE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A28",
+   "product": "Alka-Seltzer Cool Action Heartburn Relief Mint",
+   "ingredients": "CALCIUM CARBONATE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A29",
+   "product": "Alka-Seltzer Extra Strength",
+   "ingredients": "ANHYDROUS CITRIC ACID; ASPIRIN; SODIUM BICARBONATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A30",
+   "product": "Alka-Seltzer Extra Strength Heartburn ReliefChews",
+   "ingredients": "CALCIUM CARBONATE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A31",
+   "product": "Alka-Seltzer Extra Strength Pain Relief",
+   "ingredients": "ASPIRIN; CAFFEINE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A32",
+   "product": "Alka-Seltzer Gold",
+   "ingredients": "CITRIC ACID MONOHYDRATE; POTASSIUM BICARBONATE; SODIUM BICARBONATE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A33",
+   "product": "Alka-Seltzer Hangover Relief",
+   "ingredients": "ASPIRIN; CAFFEINE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A34",
+   "product": "Alka-Seltzer Heartburn",
+   "ingredients": "CITRIC ACID MONOHYDRATE; SODIUM BICARBONATE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A35",
+   "product": "Alka-Seltzer Heartburn and Pain",
+   "ingredients": "ANHYDROUS CITRIC ACID; ASPIRIN; SODIUM BICARBONATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A36",
+   "product": "Alka-Seltzer Heartburn Plus Gas ReliefChews Tropical Punch",
+   "ingredients": "CALCIUM CARBONATE; DIMETHICONE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A37",
+   "product": "Alka-Seltzer Heartburn Relief Extra Strength",
+   "ingredients": "CITRIC ACID MONOHYDRATE; SODIUM BICARBONATE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A38",
+   "product": "Alka-Seltzer Heartburn Relief Lemon Lime",
+   "ingredients": "CITRIC ACID MONOHYDRATE; SODIUM BICARBONATE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A39",
+   "product": "Alka-Seltzer Heartburn Relief Peppermint",
+   "ingredients": "CALCIUM CARBONATE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A40",
+   "product": "Alka-Seltzer Heartburn ReliefChews",
+   "ingredients": "CALCIUM CARBONATE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A41",
+   "product": "Alka-Seltzer Heartburn ReliefChews Strawberry and Orange",
+   "ingredients": "CALCIUM CARBONATE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A42",
+   "product": "Alka-Seltzer Kids Tummy ReliefChews",
+   "ingredients": "CALCIUM CARBONATE; DIMETHICONE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A43",
+   "product": "Alka-Seltzer Original",
+   "ingredients": "ANHYDROUS CITRIC ACID; ASPIRIN; SODIUM BICARBONATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A44",
+   "product": "Alka-Seltzer Original Flavor",
+   "ingredients": "ASPIRIN",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A45",
+   "product": "Alka-Seltzer Pain Relief",
+   "ingredients": "ASPIRIN",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A46",
+   "product": "Alka-Seltzer Plus Cold and Cough",
+   "ingredients": "ASPIRIN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A47",
+   "product": "Alka-Seltzer Plus Cold and Flu FizzyChews",
+   "ingredients": "ACETAMINOPHEN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A48",
+   "product": "Alka-Seltzer Plus Cold and Flu, CVP",
+   "ingredients": "ACETAMINOPHEN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A49",
+   "product": "Alka-Seltzer Plus Cold Day and Night",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A50",
+   "product": "Alka-Seltzer Plus Cold Day and Night PowerMax gels",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A51",
+   "product": "Alka-Seltzer Plus Cold Medicine Sparkling Original",
+   "ingredients": "ASPIRIN; CHLORPHENIRAMINE MALEATE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A52",
+   "product": "Alka-Seltzer Plus Cold Night",
+   "ingredients": "ASPIRIN; DEXTROMETHORPHAN HYDROBROMIDE; DOXYLAMINE SUCCINATE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A53",
+   "product": "Alka-Seltzer Plus Cold Orange Zest",
+   "ingredients": "ASPIRIN; CHLORPHENIRAMINE MALEATE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A54",
+   "product": "Alka-Seltzer Plus Cold Sparkling Original",
+   "ingredients": "ASPIRIN; CHLORPHENIRAMINE MALEATE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A55",
+   "product": "Alka-Seltzer Plus Cold Sparkling Original PowerFast Fizz",
+   "ingredients": "ASPIRIN; CHLORPHENIRAMINE MALEATE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A56",
+   "product": "Alka-Seltzer Plus Cough and Sore Throat FizzyChews",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A57",
+   "product": "Alka-Seltzer Plus Cough, Mucus and Congestion Day and Night Powermax",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A58",
+   "product": "Alka-Seltzer Plus Day Severe Cold Plus Flu",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; GUAIFENESIN; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A59",
+   "product": "Alka-Seltzer Plus Maximum Strength Cold and Cough Liquid Gels",
+   "ingredients": "ACETAMINOPHEN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A60",
+   "product": "Alka-Seltzer Plus Maximum Strength Cold and Cough Power Max Gels",
+   "ingredients": "ACETAMINOPHEN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A61",
+   "product": "Alka-Seltzer Plus Maximum Strength Cough, Mucus and Congestion Day and Night",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A62",
+   "product": "Alka-Seltzer Plus Maximum Strength Cough, Mucus and Congestion Powermax",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; GUAIFENESIN; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A63",
+   "product": "Alka-Seltzer Plus Maximum Strength Day and Night Cold and Flu",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A64",
+   "product": "Alka-Seltzer Plus Maximum Strength Day and Night Cold and Flu PowerMax Gels",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A65",
+   "product": "Alka-Seltzer Plus Maximum Strength Day Cold and Flu",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A66",
+   "product": "Alka-Seltzer Plus Maximum Strength Day Cold and Flu PowerMax Gels",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A67",
+   "product": "Alka-Seltzer Plus Maximum Strength Night Cold and Flu",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; DOXYLAMINE SUCCINATE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A68",
+   "product": "Alka-Seltzer Plus Maximum Strength Night Cold and Flu PowerMax Gels",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; DOXYLAMINE SUCCINATE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A69",
+   "product": "Alka-Seltzer Plus Maximum Strength Severe Sinus Congestion and Cough Day and Night",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A70",
+   "product": "Alka-Seltzer Plus Maximum Strength Severe Sinus, Allergy and Cough",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; DOXYLAMINE SUCCINATE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A71",
+   "product": "Alka-Seltzer Plus Maximum Strength Sinus Congestion and Pain PowerFast Fizz",
+   "ingredients": "ACETAMINOPHEN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A72",
+   "product": "Alka-Seltzer Plus Maximum Strength Sinus, Congestion and Pain Power Max Gels",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A73",
+   "product": "Alka-Seltzer Plus Multi-Symptom Cold and Flu Day and Night Liquid Gels",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A74",
+   "product": "Alka-Seltzer Plus Night Severe Cold and Flu",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; DOXYLAMINE SUCCINATE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A75",
+   "product": "Alka-Seltzer Plus Severe Cold and Cough PowerFast Fizz",
+   "ingredients": "ASPIRIN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A76",
+   "product": "Alka-Seltzer Plus Severe Cold and Flu PowerFast Fizz",
+   "ingredients": "ACETAMINOPHEN; CHLORPHENIRAMINE MALEATE; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A77",
+   "product": "Alka-Seltzer Plus Severe Cold Night PowerFast Fizz",
+   "ingredients": "ASPIRIN; DEXTROMETHORPHAN HYDROBROMIDE; DOXYLAMINE SUCCINATE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A78",
+   "product": "Alka-Seltzer Plus Severe Cold PowerFast Fizz",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A79",
+   "product": "Alka-Seltzer Plus Severe Cold PowerFast Fizz Day and Night",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A80",
+   "product": "Alka-Seltzer Plus Severe Cold Powerfast Fizz Night",
+   "ingredients": "ASPIRIN; DEXTROMETHORPHAN HYDROBROMIDE; DOXYLAMINE SUCCINATE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A81",
+   "product": "Alka-Seltzer Plus Severe Cold PowerFast Fizz Non Drowsy",
+   "ingredients": "ASPIRIN; DEXTROMETHORPHAN HYDROBROMIDE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A82",
+   "product": "Alka-Seltzer Plus Severe Cold PowerFast Fizz Orange Zest",
+   "ingredients": "ASPIRIN; CHLORPHENIRAMINE MALEATE; PHENYLEPHRINE BITARTRATE",
+   "rules": [],
+   "alert": "It has aspirin.",
+   "contains": [
+    "aspirin"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "ASK",
+    "G3a": "ASK",
+    "G3b": "ASK",
+    "G4": "ASK",
+    "G5": "ASK",
+    "Dialysis": "ASK",
+    "Transplant": "NA",
+    "Unknown": "ASK"
+   }
+  },
+  {
+   "id": "A83",
+   "product": "Alka-Seltzer Plus Severe Cough Mucus and Congestion Day and Night",
+   "ingredients": "(not listed in openFDA; read from the label text)",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A84",
+   "product": "Alka-Seltzer Plus Severe Cough Mucus and Congestion Liquid Gels",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; GUAIFENESIN; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A85",
+   "product": "Alka-Seltzer Plus Severe Sinus Cold and Cough Liquid Gels",
+   "ingredients": "ACETAMINOPHEN; DEXTROMETHORPHAN HYDROBROMIDE; GUAIFENESIN; PHENYLEPHRINE HYDROCHLORIDE",
+   "rules": [],
+   "alert": "It has acetaminophen.",
+   "contains": [
+    "acetaminophen"
+   ],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A86",
+   "product": "Alka-Seltzer Ultra Strength Heartburn ReliefChews",
+   "ingredients": "CALCIUM CARBONATE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  },
+  {
+   "id": "A87",
+   "product": "Alka-Seltzer Ultra Strength Heartburn ReliefChews Strawberry and Orange",
+   "ingredients": "CALCIUM CARBONATE",
+   "rules": [],
+   "alert": "",
+   "contains": [],
+   "also_search": [],
+   "stages": {
+    "G1-2": "OK",
+    "G3a": "OK",
+    "G3b": "OK",
+    "G4": "OK",
+    "G5": "OK",
+    "Dialysis": "OK",
+    "Transplant": "NA",
+    "Unknown": "OK"
+   }
+  }
+ ],
+ "alerts": [
+  {
+   "id": "D01",
+   "ingredients": [
+    "ibuprofen",
+    "naproxen",
+    "aspirin",
+    "diclofenac",
+    "meloxicam",
+    "celecoxib"
+   ],
+   "code": "AVOID",
+   "text": "You listed more than one medicine that contains an NSAID or aspirin. Together they are more likely to harm your kidneys and cause bleeding. Ask your doctor or pharmacist first.",
+   "phrase": "an NSAID or aspirin"
+  },
+  {
+   "id": "D02",
+   "ingredients": [
+    "acetaminophen"
+   ],
+   "code": "ASK",
+   "text": "You listed more than one medicine that contains acetaminophen. Too much acetaminophen can harm the liver. Ask your pharmacist how much is safe in all.",
+   "phrase": "acetaminophen"
+  }
+ ]
+}

@@ -1,0 +1,220 @@
+/* Sizes are in rem, so the "Smaller text" button resizes everything at once. */
+:root {
+  color-scheme: light;
+  font-size: 22px;
+  --ink: #111;
+  --muted: #3d3d3d;
+  --line: #5a5a5a;
+  --brand: #0b3d6b;
+}
+:root.small-text { font-size: 18px; }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+}
+
+.draft-banner {
+  background: #fff3c4;
+  color: #111;
+  border-bottom: 3px solid #8a5a00;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.site-header {
+  background: var(--brand);
+  color: #fff;
+  padding: 0.6rem 1rem;
+}
+.site-header h1 { margin: 0 0 0.4rem; font-size: 1.05rem; line-height: 1.25; }
+.text-size {
+  min-height: 48px;
+  padding: 0 0.8rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: #fff;
+  color: var(--brand);
+  border: 2px solid #fff;
+  border-radius: 8px;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+h2 { margin: 0.4rem 0 0.8rem; font-size: 1.35rem; line-height: 1.25; }
+h2:focus { outline: none; }
+h3 { margin: 1.2rem 0 0.4rem; font-size: 1.15rem; }
+p { margin: 0.5rem 0; }
+
+.site-footer {
+  border-top: 2px solid var(--line);
+  padding: 0.9rem 1rem;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* Buttons and fields */
+.btn {
+  display: block;
+  width: 100%;
+  min-height: 3rem;
+  margin: 0.6rem 0;
+  padding: 0.6rem 0.9rem;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  color: var(--ink);
+  background: #eef2f6;
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; text-align: center; }
+.btn.secondary { background: #fff; border-color: var(--brand); color: var(--brand); }
+.btn.back { width: auto; min-width: 7rem; margin-top: 0; text-align: center; background: #fff; }
+.btn.small { width: auto; min-width: 5.5rem; margin: 0; padding: 0.4rem 0.8rem; text-align: center; background: #fff; }
+.btn.selected { background: #dbe7f4; border-color: var(--brand); border-width: 3px; }
+.btn.danger { background: #fff; border-color: #9b0f1c; color: #9b0f1c; text-align: center; }
+.link-button {
+  min-height: 48px;
+  padding: 0.5rem 0;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--brand);
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.my-list { margin: 1rem 0; padding: 0.4rem 0.9rem 0.6rem; border: 2px solid var(--line); border-radius: 10px; }
+.my-list h3 { margin-top: 0.4rem; }
+.list-name { flex: 1 1 10rem; min-width: 0; overflow-wrap: anywhere; }
+.list-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.keep { margin-top: 1.2rem; }
+.top-add { display: block; margin: -0.2rem 0 0.4rem; }
+.keep-line { margin-top: 0; }
+.danger-zone { margin-top: 2rem; padding-top: 0.6rem; border-top: 2px solid var(--line); }
+.btn:focus-visible, .text-size:focus-visible, input:focus-visible {
+  outline: 3px solid #d17a00;
+  outline-offset: 2px;
+}
+
+label { display: block; margin: 0.8rem 0 0.3rem; font-weight: 600; }
+input[type="text"], input[type="search"], input[type="date"] {
+  display: block;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.4rem 0.7rem;
+  font: inherit;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: 8px;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 3rem;
+  margin: 0.8rem 0 0;
+  cursor: pointer;
+}
+.check input { flex: none; width: 1.5rem; height: 1.5rem; }
+
+.detail, .hint { color: var(--muted); font-size: 0.9rem; }
+.detail { display: block; font-weight: 400; }
+.error { color: #9b0f1c; font-weight: 700; }
+.or { margin-top: 1.4rem; }
+.stage-line { margin-top: 0; }
+.notice { padding: 0.6rem 0.9rem; margin-bottom: 1rem; border: 2px solid var(--brand); border-radius: 10px; }
+.list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Every result has a color, an icon and words. The color is never alone. */
+.r-OK    { --c: #0a5c33; --bg: #e6f4ec; }
+.r-DOSE  { --c: #0b4a80; --bg: #e5f0fa; }
+.r-ASK   { --c: #7a4100; --bg: #fff2dc; }
+.r-AVOID { --c: #9b0f1c; --bg: #fde8ea; }
+.r-NA    { --c: #3c4043; --bg: #eceff1; }
+
+.card, .alert {
+  margin: 0.9rem 0;
+  padding: 0.8rem 0.9rem;
+  background: var(--bg);
+  border: 2px solid var(--c);
+  border-left-width: 10px;
+  border-radius: 10px;
+}
+.card h3, .alert h3 { margin-top: 0; margin-bottom: 0; overflow-wrap: anywhere; }
+.did-you-mean { margin-bottom: 0; }
+.headline {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.6rem 0 0.3rem;
+  color: var(--c);
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+.icon { flex: none; width: 2.1rem; height: 2.1rem; }
+.safety {
+  padding: 0.6rem 0.7rem;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  font-weight: 700;
+}
+.summary-row {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.summary-row strong { overflow-wrap: anywhere; }
+.summary-row .headline { margin: 0.3rem 0 0; font-size: 1rem; }
+.summary-row .icon { width: 1.4rem; height: 1.4rem; }
+
+/* Printing: one clean page. */
+@media print {
+  :root, :root.small-text { font-size: 11.5pt; }
+  @page { margin: 1.3cm; }
+  body { display: block; min-height: 0; }
+  .no-print { display: none !important; }
+  .site-header { padding: 0; background: none; color: #000; }
+  main { max-width: none; padding: 0; }
+  h2 { font-size: 1.2rem; margin: 0.5rem 0; }
+  p { margin: 0.2rem 0; }
+  .alert { padding: 0.3rem 0.5rem; margin: 0.4rem 0; }
+  .icon { width: 1.2rem; height: 1.2rem; }
+  .alert h3 { font-size: 1rem; }
+  .alert .headline { margin: 0; font-size: 1rem; }
+  .summary-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 0.08rem 0; break-inside: avoid; }
+  .summary-row .headline { margin: 0; flex: none; font-size: 0.95rem; }
+  .summary-row .icon { width: 1rem; height: 1rem; }
+  .summary-row .detail { display: inline; margin-left: 0.5em; font-size: 0.85rem; }
+  .site-footer { padding: 0.4rem 0 0; margin-top: 0.5rem; font-size: 0.8rem; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

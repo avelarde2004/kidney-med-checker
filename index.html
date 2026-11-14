@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kidney-Safe Medication Checker (V2)</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css?v=846e33ee72">
+</head>
+<body>
+  <div class="draft-banner" role="note">Draft for review – not for patient use. Educational tool, not medical advice.</div>
+  <header class="site-header">
+    <h1>Kidney-Safe Medication Checker (V2)</h1>
+    <button type="button" id="text-size" class="text-size no-print">Smaller text</button>
+  </header>
+  <main id="app"><p>Loading…</p></main>
+  <footer class="site-footer">Educational tool, not medical advice. Draft guidance pending nephrologist review. Never stop or change a prescribed medicine without calling your doctor.</footer>
+  <script>
+    // If the page can't finish starting (an old copy kept by the browser, a blocked file, a script error),
+    // say so instead of showing "Loading…" forever.
+    (function () {
+      function stuck() {
+        var main = document.getElementById("app");
+        if (!main || main.getAttribute("data-loaded") === "yes") return;
+        main.innerHTML = '<p class="error">Sorry, this page did not finish loading. Please press Reload. ' +
+          'If it still does not work, ask the person who gave you this link.</p>';
+      }
+      window.addEventListener("error", function () { setTimeout(stuck, 300); }, true);
+      setTimeout(stuck, 10000);
+    })();
+  </script>
+  <script src="js/text.js?v=e4146a2474"></script>
+  <script src="js/engine.js?v=18e0c38dc8"></script>
+  <script src="js/app.js?v=3b9b3df28c"></script>
+</body>
+</html>

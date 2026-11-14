@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checker tests</title>
+  <style>
+    body { font: 18px/1.4 -apple-system, Helvetica, Arial, sans-serif; margin: 1rem; color: #111; }
+    #summary { font-size: 1.4rem; font-weight: 700; padding: .6rem; border: 3px solid; }
+    .pass { color: #0a5c33; } .fail { color: #9b0f1c; font-weight: 700; }
+    li { margin: .35rem 0; }
+    h2 { margin-top: 1.5rem; }
+    .draft-banner { background: #fff3c4; color: #111; border: 3px solid #8a5a00; padding: .6rem .8rem; font-weight: 700; margin: 0 0 1rem; }
+    iframe { width: 360px; height: 760px; border: 2px solid #999; }
+  </style>
+</head>
+<body>
+  <div class="draft-banner" role="note">Draft for review – not for patient use. Educational tool, not medical advice.</div>
+  <h1>Kidney-Safe Medication Checker: tests</h1>
+  <div id="summary">Running…</div>
+  <h2>Medical rules</h2>
+  <ul id="list"></ul>
+  <h2>The real site at phone width (360 px)</h2>
+  <ul id="ui-list"></ul>
+  <div id="ui-area"></div>
+  <script src="js/text.js?v=e4146a2474"></script>
+  <script src="js/engine.js?v=18e0c38dc8"></script>
+  <script>
+  var T = window.KMC_TEXT;
+  function expect(actual, wanted) {
+    return actual === wanted ? null : 'got "' + actual + '", wanted "' + wanted + '"';
+  }
+  function all() {
+    return Array.prototype.slice.call(arguments).filter(Boolean)[0] || null;
+  }
+  fetch("data/table.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (table) {
+    var LABEL = { avoid: "Not recommended", ask: "Consult your doctor", ok: "No change needed",
+                  dose: "Dose may need adjusting – check with your clinician", na: "This cannot be assessed" };
+    var SAFETY = "do not stop or change it on your own";
+    var ALL_STAGES = ["G1-2", "G3a", "G3b", "G4", "G5", "Dialysis"];
+    var results = [];
+
+    function ctx(stage, egfr, unknown) {
+      return { stage: stage, egfr: egfr === undefined ? null : egfr, egfrUnknown: !!unknown };
+    }
+    // Finds medicines through the real search, the way a patient would.
+    function add(query, source, answer) {
+      var hit = Engine.search(table, query)[0] || Engine.typedItem(query);
+      return Object.assign({}, hit, { source: source, answer: answer });
+    }
+    function check(name, fn) {
+      var problem;
+      try { problem = fn(); } catch (e) { problem = "crashed: " + e.message; }
+      results.push({ name: name, problem: problem });
+    }
+    function alertIds(items) {
+      return Engine.doubleUps(table, items).map(function (a) { return a.id; }).join(",");
+    }
+    function headline(query, source, c, answer) {
+      return Engine.evaluate(table, c, add(query, source, answer)).headline;
+    }
+    function codeAt(query, source, stage, answer) {
+      return Engine.evaluate(table, ctx(stage), add(query, source, answer)).code;
+    }
+    // Checks results for every stage in order: 1–2, 3a, 3b, 4, 5, Dialysis.
+    function stagesAre(query, source, wanted, answer) {
+      var got = ALL_STAGES.map(function (s) { return codeAt(query, source, s, answer); }).join(" ");
+      return expect(got, wanted.join(" "));
+    }
+    function headingOf(items, id) {
+      var alert = Engine.doubleUps(table, items).filter(function (a) { return a.id === id; })[0];
+      return alert ? alert.heading : "(no alert)";
+    }
+    function suggestions(text) {
+      return Engine.suggest(table, text).map(function (s) { return s.title; });
+    }
+    function titles(text) {
+      return Engine.search(table, text).map(function (h) { return h.title; });
+    }
+
+    /* The cases from the project brief (V0), updated where Dr. Pramod changed a rule */
+    check("Ibuprofen, bought myself, stage 3b → Not recommended", function () {
+      var r = Engine.evaluate(table, ctx("G3b"), add("Ibuprofen", "bought"));
+      return all(expect(r.headline, LABEL.avoid), r.safety && "should not show the prescribed message");
+    });
+    check("Ibuprofen, prescribed, stage 3b → Dose check + prescribed safety message", function () {
+      var r = Engine.evaluate(table, ctx("G3b"), add("Ibuprofen", "prescribed"));
+      return all(expect(r.headline, LABEL.dose), (r.safety || "").indexOf(SAFETY) < 0 && "safety message missing");
+    });
+    check("CHANGED (plain language): Advil PM, bought myself, stage 3a → Consult doctor + alert “It has ibuprofen”", function () {
+      var r = Engine.evaluate(table, ctx("G3a"), add("Advil PM", "bought"));
+      return all(expect(r.headline, LABEL.ask), (r.alert || "").indexOf("It has ibuprofen") < 0 && "alert missing");
+    });
+    check("Advil + Aleve PM together → double-up NSAID alert", function () {
+      return expect(alertIds([add("Advil", "bought"), add("Aleve PM", "bought")]), "D01");
+    });
+    check("Metformin, prescribed, stage 4 → Not recommended", function () {
+      return expect(headline("Metformin", "prescribed", ctx("G4")), LABEL.avoid);
+    });
+    check("SGLT2 inhibitor, stage 4, eGFR 28 → No change", function () {
+      return expect(headline("SGLT2", "prescribed", ctx("G4", 28)), LABEL.ok);
+    });
+    check("CHANGED (v1): SGLT2 inhibitor, stage 4, eGFR 20 → Consult doctor (was Not recommended)", function () {
+      return expect(headline("SGLT2", "prescribed", ctx("G4", 20)), LABEL.ask);
+    });
+    check("SGLT2 inhibitor, stage 4, eGFR unknown → Consult doctor", function () {
+      return expect(headline("SGLT2", "prescribed", ctx("G4", null, true)), LABEL.ask);
+    });
+    check("CHANGED (v2): Every medicine and product except trimethoprim-sulfamethoxazole, Kidney transplant → This cannot be assessed", function () {
+      var names = table.families.map(function (f) { return f.label; }).filter(function (n) { return n !== "Trimethoprim-sulfamethoxazole"; })
+        .concat(table.combinations.map(function (c) { return c.product; }));
+      var bad = names.filter(function (n) {
+        return ["prescribed", "bought"].some(function (s) {
+          return ["yes", "no", "unsure"].some(function (answer) {
+            return Engine.evaluate(table, ctx("Transplant"), add(n, s, answer)).headline.indexOf(LABEL.na) !== 0;
+          });
+        });
+      });
+      return bad.length ? "wrong for: " + bad.join(", ") : null;
+    });
+    check("“Zzzmadeup” → This cannot be assessed, not on our list", function () {
+      var r = Engine.evaluate(table, ctx("G3a"), add("Zzzmadeup", "bought"));
+      return all(expect(r.headline, LABEL.na), expect(r.notes[0], "Not on our list yet. Ask your pharmacist or doctor."));
+    });
+
+    /* Extra checks for easy-to-miss rules */
+    check("eGFR number sets the stage at each boundary", function () {
+      var pairs = [[60, "G1-2"], [59.5, "G3a"], [45, "G3a"], [44, "G3b"], [30, "G3b"], [29, "G4"], [15, "G4"], [14, "G5"]];
+      var bad = pairs.filter(function (p) { return Engine.stageFromEgfr(p[0]) !== p[1]; });
+      return bad.length ? "wrong for eGFR " + bad.map(function (p) { return p[0]; }).join(", ") : null;
+    });
+    check("CHANGED (v1): SGLT2 at exactly eGFR 25 → No change; 24.9 → Consult doctor", function () {
+      return all(expect(headline("SGLT2", "prescribed", ctx("G4", 25)), LABEL.ok),
+                 expect(headline("SGLT2", "prescribed", ctx("G4", 24.9)), LABEL.ask));
+    });
+    check("eGFR follow-up appears only when a result depends on it", function () {
+      var m = [add("Jardiance", "prescribed")];
+      var o = [add("Metformin", "prescribed")];
+      if (!Engine.needsEgfr(table, ctx("G4"), m)) return "should ask at stage 4";
+      if (Engine.needsEgfr(table, ctx("G4", 28), m)) return "should not ask when eGFR is known";
+      if (Engine.needsEgfr(table, ctx("G4", null, true), m)) return "should not ask after I don't know";
+      if (Engine.needsEgfr(table, ctx("G3a"), m)) return "should not ask at stage 3a for SGLT2";
+      if (Engine.needsEgfr(table, ctx("G4"), o)) return "should not ask for metformin";
+      return null;
+    });
+    check("“Thinking about taking it” uses the store-bought row", function () {
+      return expect(headline("Ibuprofen", "considering", ctx("G3b")), LABEL.avoid);
+    });
+    check("Prescribed-only medicine bought by the patient still gets its row, no safety message", function () {
+      var r = Engine.evaluate(table, ctx("G3a"), add("Gabapentin", "bought"));
+      return all(expect(r.headline, LABEL.dose), r.safety && "should not show the prescribed message");
+    });
+    check("CHANGED (v2): Low-dose aspirin: doctor recommended → No change; self-started → now also No change (was Consult doctor)", function () {
+      return all(expect(headline("Baby aspirin", "prescribed", ctx("G4")), LABEL.ok),
+                 expect(headline("Baby aspirin", "bought", ctx("G4")), LABEL.ok));
+    });
+    check("High-dose aspirin marked prescribed does NOT fall through to the low-dose rule", function () {
+      return expect(headline("Aspirin – high dose", "prescribed", ctx("G4")), LABEL.avoid);
+    });
+    check("CHANGED (v1): Vitamin D prescribed → No change; bought at stage 3b → Consult doctor (was Not recommended)", function () {
+      return all(expect(headline("Vitamin D", "prescribed", ctx("G3b")), LABEL.ok),
+                 expect(headline("Vitamin D", "bought", ctx("G3b")), LABEL.ask));
+    });
+    check("CHANGED (v1): Stage unknown uses its column: ibuprofen Consult; acetaminophen No change; meperidine now Consult", function () {
+      return all(expect(headline("Ibuprofen", "bought", ctx("Unknown")), LABEL.ask),
+                 expect(headline("Acetaminophen", "bought", ctx("Unknown")), LABEL.ok),
+                 expect(headline("Meperidine", "prescribed", ctx("Unknown")), LABEL.ask));
+    });
+    check("Excedrin at 3a: strictest ingredient wins, acetaminophen's “safest” note is not shown", function () {
+      var r = Engine.evaluate(table, ctx("G3a"), add("Excedrin", "bought"));
+      return all(expect(r.item.title, "Excedrin Extra Strength"), expect(r.headline, LABEL.ask),
+                 r.notes.join(" ").indexOf("safest") >= 0 && "misleading note shown");
+    });
+    check("CHANGED (v1): Advil Cold & Sinus at 3b → Not recommended, with only the ibuprofen note (pseudoephedrine is now Consult doctor there)", function () {
+      var r = Engine.evaluate(table, ctx("G3b"), add("Advil Cold & Sinus", "bought"));
+      return all(expect(r.headline, LABEL.avoid), r.notes.length !== 1 && "expected 1 note, got " + r.notes.length,
+                 /Ibuprofen/.test(r.notes[0]) ? null : "wrong note");
+    });
+    check("A product whose ingredients tie shows every ingredient's note (Advil Dual Action, kidney transplant)", function () {
+      return expect(Engine.evaluate(table, ctx("Transplant"), add("Advil Dual Action", "bought")).notes.length, 2);
+    });
+    check("Tylenol + Percocet → double-up acetaminophen alert", function () {
+      return expect(alertIds([add("Tylenol", "bought"), add("Percocet", "prescribed")]), "D02");
+    });
+    check("Oxycodone without the Percocet name does not count as acetaminophen", function () {
+      return expect(alertIds([add("Tylenol", "bought"), add("Oxycodone", "prescribed")]), "");
+    });
+    check("Advil Dual Action + Excedrin → both alerts", function () {
+      return expect(alertIds([add("Advil Dual Action", "bought"), add("Excedrin", "bought")]), "D01,D02");
+    });
+    check("One NSAID alone → no double-up alert", function () {
+      return expect(alertIds([add("Advil", "bought")]), "");
+    });
+    check("Prescribed low-dose aspirin + one NSAID counts (workbook: “Currently it does”)", function () {
+      return expect(alertIds([add("Baby aspirin", "prescribed"), add("Advil", "bought")]), "D01");
+    });
+    check("“Acacin” finds Anacin (Decision 2)", function () {
+      return expect(add("Acacin", "bought").title, "Anacin");
+    });
+    check("CHANGED (v1): “multivitamin” now finds the three vitamin supplement rows, none called high dose", function () {
+      var found = titles("multivitamin").length;
+      var bad = Engine.search(table, "multivitamin").filter(function (h) { return /high dose/i.test(h.title + h.detail); });
+      return all(expect(found, 3), bad.length && "a result still says high dose");
+    });
+    check("Paired rows show as one search result", function () {
+      var hits = Engine.search(table, "ibuprofen").filter(function (h) { return h.kind === "med"; });
+      return expect(hits.length, 1);
+    });
+    check("Prescribed medicine that cannot be assessed still shows the safety message", function () {
+      var r = Engine.evaluate(table, ctx("G3a"), add("Zzzmadeup", "prescribed"));
+      return (r.safety || "").indexOf(SAFETY) < 0 ? "safety message missing" : null;
+    });
+    check("Prescribed medicine with No change has no safety message", function () {
+      return Engine.evaluate(table, ctx("G3a"), add("Acetaminophen", "prescribed")).safety ? "should be none" : null;
+    });
+    check("Every row gives a real result at every stage for every answer", function () {
+      var ctxs = ["G1-2", "G3a", "G3b", "G4", "G5", "Dialysis", "Transplant", "Unknown"];
+      var problems = 0;
+      table.families.forEach(function (f) {
+        ctxs.forEach(function (s) {
+          ["prescribed", "bought", "considering"].forEach(function (src) {
+            var r = Engine.evaluate(table, ctx(s), { kind: "med", key: f.key, title: f.label, aliasContains: [], source: src });
+            if (!r.headline || r.code === "EGFR") problems++;
+          });
+        });
+      });
+      table.combinations.forEach(function (c) {
+        ctxs.forEach(function (s) {
+          var r = Engine.evaluate(table, ctx(s), { kind: "combo", key: c.id, title: c.product, aliasContains: [], source: "bought" });
+          if (!r.headline || r.code === "EGFR") problems++;
+        });
+      });
+      return problems ? problems + " combinations had no result" : null;
+    });
+
+    /* Dose field, double-up headings, misspellings (earlier fixes) */
+    check("Dose field has the new label", function () {
+      return expect(Engine.DOSE_LABEL, "Dose (optional – shown on your printout for your doctor; it does not change the result)");
+    });
+    check("Dose and its unit stay exactly as typed", function () {
+      var item = Object.assign(add("Ibuprofen", "bought"), { dose: "200 MG twice a day" });
+      return expect(Engine.evaluate(table, ctx("G3b"), item).item.dose, "200 MG twice a day");
+    });
+    check("Dose does not change the result", function () {
+      var plain = Engine.evaluate(table, ctx("G3a"), add("Ibuprofen", "bought"));
+      var dosed = Engine.evaluate(table, ctx("G3a"), Object.assign(add("Ibuprofen", "bought"), { dose: "9999 mg" }));
+      return expect(dosed.code, plain.code);
+    });
+    check("Heading: Advil PM + Aleve: both contain an NSAID", function () {
+      return expect(headingOf([add("Advil PM", "bought"), add("Aleve", "bought")], "D01"), "Advil PM + Aleve: both contain an NSAID");
+    });
+    check("Heading: Tylenol + Percocet: both contain acetaminophen", function () {
+      return expect(headingOf([add("Tylenol", "bought"), add("Percocet", "prescribed")], "D02"), "Tylenol + Percocet: both contain acetaminophen");
+    });
+    check("Heading names aspirin when aspirin is all they share", function () {
+      return expect(headingOf([add("Anacin", "bought"), add("BC Powder", "bought")], "D01"), "Anacin + BC Powder: both contain aspirin");
+    });
+    check("Heading for an NSAID plus aspirin uses the full wording", function () {
+      return expect(headingOf([add("Advil", "bought"), add("Baby aspirin", "prescribed")], "D01"), "Advil + Baby aspirin: both contain an NSAID or aspirin");
+    });
+    check("Heading says “all” for three items", function () {
+      return expect(headingOf([add("Advil", "bought"), add("Aleve", "bought"), add("Meloxicam", "prescribed")], "D01"), "Advil + Aleve + Meloxicam: all contain an NSAID");
+    });
+    check("Heading leaves out items that did not trigger the alert", function () {
+      return expect(headingOf([add("Advil", "bought"), add("Metformin", "prescribed"), add("Aleve", "bought")], "D01"), "Advil + Aleve: both contain an NSAID");
+    });
+    check("Products in both alerts get the right heading for each", function () {
+      var items = [add("Advil Dual Action", "bought"), add("Excedrin", "bought")];
+      return all(expect(headingOf(items, "D01"), "Advil Dual Action + Excedrin Extra Strength: both contain an NSAID or aspirin"),
+                 expect(headingOf(items, "D02"), "Advil Dual Action + Excedrin Extra Strength: both contain acetaminophen"));
+    });
+    check("“Ibuprophen” suggests Ibuprofen", function () {
+      return expect(suggestions("Ibuprophen")[0], "Ibuprofen");
+    });
+    check("Other common misspellings find the right medicine", function () {
+      var cases = [["Tylanol", "Tylenol"], ["acetominophen", "Acetaminophen"], ["metforman", "Metformin"],
+                   ["gabapenten", "Gabapentin"], ["Advil PN", "Advil PM"], ["exedrin", "Excedrin Extra Strength"]];
+      var bad = cases.filter(function (c) { return suggestions(c[0]).indexOf(c[1]) < 0; });
+      return bad.length ? "missed: " + bad.map(function (c) { return c[0] + " → " + suggestions(c[0]); }).join("; ") : null;
+    });
+    check("“Asprin” offers both aspirin rules so the patient chooses", function () {
+      var s = suggestions("Asprin");
+      return s.length === 2 ? null : "got: " + s.join(", ");
+    });
+    check("Never more than 3 suggestions", function () {
+      var over = ["vitamen", "tylanol", "asprin", "magnesum", "advill pm"].filter(function (t) { return suggestions(t).length > 3; });
+      return over.length ? "too many for: " + over.join(", ") : null;
+    });
+    check("A misspelling is never auto-substituted", function () {
+      var r = Engine.evaluate(table, ctx("G3b"), add("Ibuprophen", "bought"));
+      return all(Engine.search(table, "Ibuprophen").length && "search should find nothing",
+                 Engine.exactMatch(table, "Ibuprophen") && "exactMatch should find nothing",
+                 expect(r.code, "NA"));
+    });
+    check("Declining keeps the “cannot be assessed” result", function () {
+      var r = Engine.evaluate(table, ctx("G3b"), Object.assign(Engine.typedItem("Ibuprophen"), { source: "bought" }));
+      return all(expect(r.headline, LABEL.na), expect(r.notes[0], "Not on our list yet. Ask your pharmacist or doctor."),
+                 expect(r.item.title, "Ibuprophen"));
+    });
+    check("Tapping a suggestion gives that medicine's real result", function () {
+      var item = Object.assign({}, Engine.suggest(table, "Ibuprophen")[0], { source: "bought" });
+      return expect(Engine.evaluate(table, ctx("G3b"), item).headline, LABEL.avoid);
+    });
+    check("A tapped suggestion still counts toward double-up alerts", function () {
+      var percocet = Object.assign({}, Engine.suggest(table, "Percoset")[0], { source: "prescribed" });
+      return expect(alertIds([add("Tylenol", "bought"), percocet]), "D02");
+    });
+    check("Correct names and partial typing get no suggestions", function () {
+      var extra = ["Ibuprofen", "Advil PM", "Ibupr", "metf"].filter(function (t) { return suggestions(t).length; });
+      return extra.length ? "suggested for: " + extra.join(", ") : null;
+    });
+    check("Nonsense, very short text and “multivitamin” get no suggestions", function () {
+      var extra = ["Zzzmadeup", "xq", "abc", "multivitamin"].filter(function (t) { return suggestions(t).length; });
+      return extra.length ? "suggested for: " + extra.map(function (t) { return t + " → " + suggestions(t); }).join("; ") : null;
+    });
+    check("Real medicines that sound similar are not suggested", function () {
+      var extra = ["Detrol", "Celexa", "Trazodone", "Cerebyx", "Clonidine", "Fluoxetine"].filter(function (t) { return suggestions(t).length; });
+      return extra.length ? "suggested for: " + extra.map(function (t) { return t + " → " + suggestions(t); }).join("; ") : null;
+    });
+
+    /* v1: Dr. Pramod's review decisions, Nov 2026 */
+    check("v1 M07 Diclofenac gel → No change at every stage (and stage unknown)", function () {
+      return all(stagesAre("Diclofenac gel", "bought", ["OK", "OK", "OK", "OK", "OK", "OK"]),
+                 expect(codeAt("Diclofenac gel", "bought", "Unknown"), "OK"));
+    });
+    check("v1 M17 Pseudoephedrine → No change at 1–3a, Consult doctor at 3b and below", function () {
+      return stagesAre("Pseudoephedrine", "bought", ["OK", "OK", "ASK", "ASK", "ASK", "ASK"]);
+    });
+    check("CHANGED (plain language): v1 M17 Pseudoephedrine note keeps Dr. Pramod's meaning in simpler words", function () {
+      return expect(Engine.evaluate(table, ctx("G3b"), add("Pseudoephedrine", "bought")).notes[0],
+        "Usually fine with mild kidney disease. If your kidneys work less well, high doses taken for a long time can cause confusion. Some Sudafed products (Sudafed PE) have phenylephrine, which can raise blood pressure. Ask your doctor first if you have high blood pressure.");
+    });
+    check("v1 NEW Phenylephrine: “Sudafed PE” finds it, same stages as pseudoephedrine, blood pressure warning", function () {
+      var r = Engine.evaluate(table, ctx("G3b"), add("Sudafed PE", "bought"));
+      return all(expect(r.checkedAs, "Phenylephrine"), stagesAre("Sudafed PE", "bought", ["OK", "OK", "ASK", "ASK", "ASK", "ASK"]),
+                 /blood pressure/.test(r.notes.join(" ")) ? null : "no blood pressure warning");
+    });
+    check("v1 “Sudafed” lists both pseudoephedrine and phenylephrine", function () {
+      var t = Engine.search(table, "Sudafed").map(function (h) { return h.detail; }).join(" | ");
+      return /Pseudoephedrine/.test(t) && /Phenylephrine/.test(t) ? null : "got: " + t;
+    });
+    check("v1 Vitamins renamed to “Vitamin C/D/A supplements”", function () {
+      var names = ["M18", "M19", "M21"].map(function (id) { return table.medicines[id].name; }).join(" | ");
+      return expect(names, "Vitamin C supplements | Vitamin D supplements (not prescribed) | Vitamin A supplements");
+    });
+    check("v1 Vitamin C, D (not prescribed), A → No change at 1–3a, Consult doctor at 3b and below", function () {
+      return all(stagesAre("Vitamin C supplements", "bought", ["OK", "OK", "ASK", "ASK", "ASK", "ASK"]),
+                 stagesAre("Vitamin D", "bought", ["OK", "OK", "ASK", "ASK", "ASK", "ASK"]),
+                 stagesAre("Vitamin A supplements", "bought", ["OK", "OK", "ASK", "ASK", "ASK", "ASK"]));
+    });
+    check("CHANGED (v2): Vitamin A note: simplified note when No change (3a); Dr. Pramod's high-dose note when Consult doctor (3b)", function () {
+      return all(expect(Engine.evaluate(table, ctx("G3a"), add("Vitamin A supplements", "bought")).notes[0],
+        "A daily multivitamin is usually fine. If your kidneys are weak, ask your doctor before you take extra vitamin A. High doses can build up."),
+                 expect(Engine.evaluate(table, ctx("G3b"), add("Vitamin A supplements", "bought")).notes[0],
+        "High dose may be unsafe. Ask your doctor for dose guidance."));
+    });
+    check("v1 Prescribed vitamin D stays No change at every stage", function () {
+      return stagesAre("Vitamin D", "prescribed", ["OK", "OK", "OK", "OK", "OK", "OK"]);
+    });
+    check("v1 M24 Oxycodone results unchanged: No change at 1–2, Dose check 3a through dialysis", function () {
+      return stagesAre("Oxycodone", "prescribed", ["OK", "DOSE", "DOSE", "DOSE", "DOSE", "DOSE"]);
+    });
+    check("v1 M26 Meperidine and M27 Codeine → No change at 1–2, Not recommended 3a through dialysis", function () {
+      return all(stagesAre("Meperidine", "prescribed", ["OK", "AVOID", "AVOID", "AVOID", "AVOID", "AVOID"]),
+                 stagesAre("Codeine", "prescribed", ["OK", "AVOID", "AVOID", "AVOID", "AVOID", "AVOID"]));
+    });
+    check("v1 M29 Baclofen → No change 1–2, Dose check 3a–4, Not recommended 5 and dialysis", function () {
+      return stagesAre("Baclofen", "prescribed", ["OK", "DOSE", "DOSE", "DOSE", "AVOID", "AVOID"]);
+    });
+    check("v1 M29 Baclofen source no longer claims “~CrCl 80”", function () {
+      return /CrCl 80/.test(JSON.stringify(table.medicines.M29)) ? "still mentions CrCl 80" : null;
+    });
+    check("v1 M34 Nitrofurantoin at 3a: eGFR 50 → No change, 49 → Not recommended, don't know → Consult", function () {
+      return all(expect(headline("Nitrofurantoin", "prescribed", ctx("G3a", 50)), LABEL.ok),
+                 expect(headline("Nitrofurantoin", "prescribed", ctx("G3a", 49)), LABEL.avoid),
+                 expect(headline("Nitrofurantoin", "prescribed", ctx("G3a", null, true)), LABEL.ask));
+    });
+    check("v1 M34 Nitrofurantoin: 1–2 No change, 3b through dialysis Not recommended, asks eGFR only at 3a", function () {
+      var n = [add("Nitrofurantoin", "prescribed")];
+      return all(expect(codeAt("Nitrofurantoin", "prescribed", "G1-2"), "OK"),
+                 ["G3b", "G4", "G5", "Dialysis"].map(function (s) { return expect(codeAt("Nitrofurantoin", "prescribed", s), "AVOID"); })
+                   .filter(Boolean)[0] || null,
+                 Engine.needsEgfr(table, ctx("G3a"), n) ? null : "should ask at 3a",
+                 Engine.needsEgfr(table, ctx("G3b"), n) ? "should not ask at 3b" : null);
+    });
+    check("v1 Decision 7: “On dialysis” never asks for eGFR (data and app)", function () {
+      var dataBad = Object.keys(table.medicines).filter(function (id) { return table.medicines[id].stages.Dialysis === "EGFR"; });
+      var everything = table.families.map(function (f) { return { kind: "med", key: f.key, title: f.label, source: "prescribed", aliasContains: [] }; });
+      // Even if a future table marked dialysis "Needs eGFR", the app must still not ask.
+      var trap = JSON.parse(JSON.stringify(table));
+      Object.keys(trap.medicines).forEach(function (id) { trap.medicines[id].stages.Dialysis = "EGFR"; trap.medicines[id].egfr_followup = { threshold: 25, at_or_above: "OK", below: "ASK", unknown: "ASK" }; });
+      return all(dataBad.length && "dialysis marked Needs eGFR for " + dataBad.join(","),
+                 Engine.needsEgfr(table, ctx("Dialysis"), everything) && "asked on dialysis",
+                 Engine.needsEgfr(trap, ctx("Dialysis"), everything) && "asked on dialysis when the table says Needs eGFR");
+    });
+    check("v1 M36 Metformin prescribed unchanged (3b Dose check, 4 Not recommended)", function () {
+      return stagesAre("Metformin", "prescribed", ["OK", "OK", "DOSE", "AVOID", "AVOID", "AVOID"]);
+    });
+    check("v1 NEW Metformin, thinking about taking it → 1–3a No change, 3b Consult doctor, 4 and below Not recommended", function () {
+      return all(stagesAre("Metformin", "considering", ["OK", "OK", "ASK", "AVOID", "AVOID", "AVOID"]),
+                 stagesAre("Metformin", "bought", ["OK", "OK", "ASK", "AVOID", "AVOID", "AVOID"]));
+    });
+    check("CHANGED (plain language): v1 NEW Metformin not-prescribed note, and no prescribed safety message", function () {
+      var r = Engine.evaluate(table, ctx("G3b"), add("Metformin", "considering"));
+      return all(expect(r.notes[0], "Do not start metformin at this kidney stage unless your doctor says so."),
+                 r.safety && "should not show the prescribed message");
+    });
+    check("v1 M38 SGLT2: 1–3b No change, 5 Consult doctor, dialysis Not recommended", function () {
+      return all(expect(codeAt("Jardiance", "prescribed", "G1-2"), "OK"), expect(codeAt("Jardiance", "prescribed", "G3a"), "OK"),
+                 expect(codeAt("Jardiance", "prescribed", "G3b"), "OK"), expect(codeAt("Jardiance", "prescribed", "G5"), "ASK"),
+                 expect(codeAt("Jardiance", "prescribed", "Dialysis"), "AVOID"));
+    });
+    check("v1 NEW Acyclovir: typing “acyclovir” finds Acyclovir first and never Valacyclovir", function () {
+      var t = titles("acyclovir");
+      return all(expect(t[0], "Acyclovir"), t.indexOf("Valacyclovir") >= 0 && "Valacyclovir still offered: " + t.join(", "));
+    });
+    check("v1 “Zovirax” finds acyclovir; “valacyclovir” still finds valacyclovir", function () {
+      return all(expect(Engine.evaluate(table, ctx("G3a"), add("Zovirax", "prescribed")).checkedAs, "Acyclovir"),
+                 expect(titles("valacyclovir")[0], "Valacyclovir"));
+    });
+    check("v1 NEW Acyclovir: label cutoff on the cautious side → No change 1–3b, Dose check 4 through dialysis", function () {
+      return stagesAre("Acyclovir", "prescribed", ["OK", "OK", "OK", "DOSE", "DOSE", "DOSE"]);
+    });
+    check("CHANGED (plain language): v1 C13 Alka-Seltzer asks the aspirin question", function () {
+      return expect(Engine.questionFor(table, add("Alka-Seltzer / Alka-Seltzer Plus", "bought")),
+                    "Look at the 'Active ingredients' box on the package. Does it list aspirin?");
+    });
+    check("v1 C13 answers: Yes → Consult doctor at every stage; No → No change; Not sure → Consult doctor", function () {
+      var name = "Alka-Seltzer / Alka-Seltzer Plus";
+      return all(stagesAre(name, "bought", ["ASK", "ASK", "ASK", "ASK", "ASK", "ASK"], "yes"),
+                 stagesAre(name, "bought", ["OK", "OK", "OK", "OK", "OK", "OK"], "no"),
+                 stagesAre(name, "bought", ["ASK", "ASK", "ASK", "ASK", "ASK", "ASK"], "unsure"));
+    });
+    check("v1 C13 “Yes” counts as aspirin for double-up alerts; “No” does not", function () {
+      var name = "Alka-Seltzer / Alka-Seltzer Plus";
+      return all(expect(alertIds([add(name, "bought", "yes"), add("Advil", "bought")]), "D01"),
+                 expect(alertIds([add(name, "bought", "no"), add("Advil", "bought")]), ""));
+    });
+    check("v1 Specific Alka-Seltzer products are searchable and use their label ingredients", function () {
+      var products = table.combinations.filter(function (c) { return /^A\d+$/.test(c.id); });
+      var withAspirin = products.filter(function (c) { return c.contains.indexOf("aspirin") >= 0; })[0];
+      var apapOnly = products.filter(function (c) { return c.contains.join() === "acetaminophen"; })[0];
+      var a = Engine.evaluate(table, ctx("G4"), add(withAspirin.product, "bought"));
+      var b = Engine.evaluate(table, ctx("G4"), add(apapOnly.product, "bought"));
+      return all(products.length < 80 && "only " + products.length + " products",
+                 expect(a.item.title, withAspirin.product), expect(a.code, "ASK"), expect(b.code, "OK"),
+                 Engine.questionFor(table, add(withAspirin.product, "bought")) && "should not ask the question",
+                 expect(alertIds([add(withAspirin.product, "bought"), add("Advil", "bought")]), "D01"),
+                 expect(alertIds([add(apapOnly.product, "bought"), add("Tylenol", "bought")]), "D02"));
+    });
+    check("v1 C14 Bayer PM → Consult doctor at 1–2, Not recommended 3a through dialysis", function () {
+      return stagesAre("Bayer PM", "bought", ["ASK", "AVOID", "AVOID", "AVOID", "AVOID", "AVOID"]);
+    });
+    check("CHANGED (plain language): v1 C14 Bayer PM alert mentions the older sleep medicine; still counts as aspirin", function () {
+      var r = Engine.evaluate(table, ctx("G1-2"), add("Bayer PM", "bought"));
+      return all(expect(r.alert, "It has aspirin. It also has an older sleep medicine (diphenhydramine). This can cause confusion or falls in older adults."),
+                 expect(alertIds([add("Bayer PM", "bought"), add("Advil", "bought")]), "D01"));
+    });
+    check("CHANGED (plain language): v1 NEW C16 Excedrin Migraine: same rule as Excedrin Extra Strength, its own alert", function () {
+      var r = Engine.evaluate(table, ctx("G3a"), add("Excedrin Migraine", "bought"));
+      var same = ALL_STAGES.every(function (s) { return codeAt("Excedrin Migraine", "bought", s) === codeAt("Excedrin Extra Strength", "bought", s); });
+      return all(expect(r.item.title, "Excedrin Migraine"), same ? null : "rules differ from Excedrin Extra Strength",
+                 expect(r.alert, "It has aspirin and acetaminophen. Use with care."));
+    });
+    check("v1 C16 Excedrin Migraine counts for both double-up alerts", function () {
+      return all(expect(alertIds([add("Excedrin Migraine", "bought"), add("Advil", "bought")]), "D01"),
+                 expect(alertIds([add("Excedrin Migraine", "bought"), add("Tylenol", "bought")]), "D02"));
+    });
+    check("v1 BC MAX was not added", function () {
+      return Engine.exactMatch(table, "BC MAX") ? "BC MAX is searchable" : null;
+    });
+
+    /* Follow-up fixes, Nov 11 */
+    var ALKA = "Alka-Seltzer / Alka-Seltzer Plus";
+    check("FOLLOW-UP Alka-Seltzer “Not sure” + Advil → NSAID/aspirin alert saying it “may contain aspirin”", function () {
+      return expect(headingOf([add("Advil", "bought"), add(ALKA, "bought", "unsure")], "D01"),
+        "Advil + Alka-Seltzer / Alka-Seltzer Plus: Advil contains an NSAID and Alka-Seltzer / Alka-Seltzer Plus may contain aspirin");
+    });
+    check("FOLLOW-UP Alka-Seltzer “Not sure” + Tylenol → acetaminophen alert saying it “may contain acetaminophen”", function () {
+      return expect(headingOf([add("Tylenol", "bought"), add(ALKA, "bought", "unsure")], "D02"),
+        "Tylenol + Alka-Seltzer / Alka-Seltzer Plus: Tylenol contains acetaminophen and Alka-Seltzer / Alka-Seltzer Plus may contain acetaminophen");
+    });
+    check("FOLLOW-UP Alka-Seltzer “Yes” counts as aspirin only; “No” counts as neither; “Not sure” alone is no alert", function () {
+      return all(expect(alertIds([add("Tylenol", "bought"), add(ALKA, "bought", "yes")]), ""),
+                 expect(alertIds([add("Tylenol", "bought"), add(ALKA, "bought", "no")]), ""),
+                 expect(alertIds([add(ALKA, "bought", "unsure")]), ""),
+                 expect(headingOf([add("Advil", "bought"), add(ALKA, "bought", "yes")], "D01"),
+                        "Advil + Alka-Seltzer / Alka-Seltzer Plus: both contain an NSAID or aspirin"));
+    });
+    check("FOLLOW-UP Three items, one “Not sure”: heading lists each with commas", function () {
+      return expect(headingOf([add("Advil", "bought"), add("Aleve", "bought"), add(ALKA, "bought", "unsure")], "D01"),
+        "Advil + Aleve + Alka-Seltzer / Alka-Seltzer Plus: Advil contains an NSAID, Aleve contains an NSAID, and Alka-Seltzer / Alka-Seltzer Plus may contain aspirin");
+    });
+    check("FOLLOW-UP C01 and C02 apply both ibuprofen and phenylephrine rules; strictest wins at every stage", function () {
+      var stages = ["G1-2", "G3a", "G3b", "G4", "G5", "Dialysis", "Unknown"];
+      var order = ["AVOID", "ASK", "DOSE", "NA", "OK"];
+      var bad = [];
+      ["Advil Sinus Congestion & Pain", "Advil Allergy & Congestion Relief"].forEach(function (name) {
+        stages.forEach(function (s) {
+          var a = codeAt("Advil", "bought", s), b = codeAt("Sudafed PE", "bought", s);
+          var wanted = order.indexOf(a) < order.indexOf(b) ? a : b;
+          if (codeAt(name, "bought", s) !== wanted) bad.push(name + " " + s);
+        });
+        var combo = table.combinations.filter(function (c) { return c.product === name; })[0];
+        if (combo.rules.join() !== "M01,M43") bad.push(name + " rules " + combo.rules.join());
+      });
+      return bad.length ? "wrong: " + bad.join(", ") : null;
+    });
+    check("FOLLOW-UP C01/C02 alert names phenylephrine and blood pressure; its note shows when it ties (stage unknown)", function () {
+      var r = Engine.evaluate(table, ctx("Unknown"), add("Advil Sinus Congestion & Pain", "bought"));
+      var c02 = Engine.evaluate(table, ctx("G3b"), add("Advil Allergy & Congestion Relief", "bought"));
+      return all(expect(r.alert, "It has ibuprofen (an NSAID). It also has phenylephrine, which can raise blood pressure."),
+                 expect(c02.alert, r.alert), expect(r.notes.length, 2),
+                 /Phenylephrine/.test(r.notes.join(" ")) ? null : "phenylephrine note missing");
+    });
+    check("FOLLOW-UP SGLT2 patient note is the new wording", function () {
+      return expect(Engine.evaluate(table, ctx("G4", 20), add("Jardiance", "prescribed")).notes[0],
+        "These medicines protect the kidneys and heart for many people. With very low kidney function, ask your doctor whether you should keep taking it. They are not used on dialysis.");
+    });
+    check("FOLLOW-UP plain language: no product alert still starts with “Contains”", function () {
+      var old = table.combinations.filter(function (c) { return /^Contains/.test(c.alert); }).map(function (c) { return c.id; });
+      return old.length ? "old wording on " + old.join(", ") : null;
+    });
+    check("FOLLOW-UP plain language: result explanations", function () {
+      return all(expect(table.categories.OK.explanation, "You do not need to change this medicine because of your kidneys."),
+                 expect(table.categories.ASK.explanation, "This may be OK only in some cases. Ask your doctor before you take it."),
+                 expect(table.categories.AVOID.explanation, "It is best not to take this medicine at your kidney level."),
+                 expect(LABEL.avoid, table.categories.AVOID.headline));
+    });
+    check("FOLLOW-UP plain language: double-up alert texts", function () {
+      return all(expect(table.alerts[0].text, "You listed more than one medicine that contains an NSAID or aspirin. Together they are more likely to harm your kidneys and cause bleeding. Ask your doctor or pharmacist first."),
+                 expect(table.alerts[1].text, "You listed more than one medicine that contains acetaminophen. Too much acetaminophen can harm the liver. Ask your pharmacist how much is safe in all."));
+    });
+    check("CHANGED (v2): FOLLOW-UP plain language: sample notes; allopurinol 3a is now No change (Dr. Pramod sign-off)", function () {
+      return all(expect(table.medicines.M40.note, "If your kidneys are weak, you will most likely start allopurinol at a low dose."),
+                 expect(table.medicines.M13.note, "Weak kidneys can't get rid of extra magnesium well. Too much magnesium can make you weak and cause heart rhythm problems."),
+                 stagesAre("Allopurinol", "prescribed", ["OK", "OK", "DOSE", "DOSE", "DOSE", "DOSE"]),
+                 stagesAre("Magnesium hydroxide", "bought", ["ASK", "ASK", "AVOID", "AVOID", "AVOID", "AVOID"]));
+    });
+    check("FOLLOW-UP specific Alka-Seltzer product alerts use the new wording", function () {
+      var old = table.combinations.filter(function (c) { return /^A\d+$/.test(c.id) && c.alert && !/^It has /.test(c.alert); });
+      return old.length ? old.length + " still use old wording" : null;
+    });
+
+    /* v2: Dr. Pramod's final sign-off, Nov 13 2026 */
+    var HIGH_DOSE = "High dose may be unsafe. Ask your doctor for dose guidance.";
+    function noteAt(query, source, stage) { return Engine.evaluate(table, ctx(stage), add(query, source)).notes.join(" | "); }
+    check("v2 M10 Low-dose aspirin, self-started → No change at 1–2 through dialysis and stage unknown; transplant still can't assess", function () {
+      return all(stagesAre("Baby aspirin", "bought", ["OK", "OK", "OK", "OK", "OK", "OK"]),
+                 expect(codeAt("Baby aspirin", "bought", "Unknown"), "OK"), expect(codeAt("Baby aspirin", "bought", "Transplant"), "NA"));
+    });
+    check("v2 M10 Low-dose aspirin, self-started: new note", function () {
+      return expect(noteAt("Baby aspirin", "bought", "G4"),
+        "Low-dose aspirin (81 mg) is usually safe for the kidneys. It can raise the risk of bleeding, so tell your doctor you take it.");
+    });
+    check("v2 Vitamins C, D, A: the high-dose note shows whenever the result is Consult doctor (3b, 4, 5, dialysis, unknown)", function () {
+      var bad = [];
+      ["Vitamin C supplements", "Vitamin D", "Vitamin A supplements"].forEach(function (n) {
+        ["G3b", "G4", "G5", "Dialysis", "Unknown"].forEach(function (s) { if (noteAt(n, "bought", s) !== HIGH_DOSE) bad.push(n + " " + s); });
+      });
+      return bad.length ? "wrong note for " + bad.join(", ") : null;
+    });
+    check("v2 Vitamins C, D, A: the current note stays when the result is No change (1–2, 3a) or can't assess", function () {
+      var bad = [];
+      [["Vitamin C supplements", "C"], ["Vitamin D", "D"], ["Vitamin A supplements", "A"]].forEach(function (v) {
+        var keep = "A daily multivitamin is usually fine. If your kidneys are weak, ask your doctor before you take extra vitamin " + v[1] + ". High doses can build up.";
+        ["G1-2", "G3a", "Transplant"].forEach(function (s) { if (noteAt(v[0], "bought", s) !== keep) bad.push(v[0] + " " + s); });
+      });
+      return bad.length ? "wrong note for " + bad.join(", ") : null;
+    });
+    check("v2 Prescribed vitamin D keeps No change and its own note", function () {
+      return all(stagesAre("Vitamin D", "prescribed", ["OK", "OK", "OK", "OK", "OK", "OK"]),
+                 expect(noteAt("Vitamin D", "prescribed", "G4"), "Take it the way your doctor prescribed."));
+    });
+    check("v2 M31 Bactrim: stage 5 and dialysis → Consult doctor; stage 4 still Dose check", function () {
+      return stagesAre("Bactrim", "prescribed", ["OK", "OK", "OK", "DOSE", "ASK", "ASK"]);
+    });
+    check("v2 M31 Bactrim on kidney transplant → Consult your doctor (Dr. Pramod's exception to Decision 7), with the prescribed safety message", function () {
+      var r = Engine.evaluate(table, ctx("Transplant"), add("Bactrim", "prescribed"));
+      return all(expect(r.headline, LABEL.ask), (r.safety || "").indexOf(SAFETY) < 0 && "safety message missing");
+    });
+    check("v2 M32 Ciprofloxacin, M33 Levofloxacin, M40 Allopurinol: stage 3a → No change; 3b still Dose check", function () {
+      return all(stagesAre("Ciprofloxacin", "prescribed", ["OK", "OK", "DOSE", "DOSE", "DOSE", "DOSE"]),
+                 stagesAre("Levofloxacin", "prescribed", ["OK", "OK", "DOSE", "DOSE", "DOSE", "DOSE"]),
+                 stagesAre("Allopurinol", "prescribed", ["OK", "OK", "DOSE", "DOSE", "DOSE", "DOSE"]));
+    });
+    check("v2 M42 Lithium → Dose check at every stage including dialysis and stage unknown", function () {
+      return all(stagesAre("Lithium", "prescribed", ["DOSE", "DOSE", "DOSE", "DOSE", "DOSE", "DOSE"]),
+                 expect(codeAt("Lithium", "prescribed", "Unknown"), "DOSE"),
+                 expect(headline("Lithium", "prescribed", ctx("Dialysis")), LABEL.dose));
+    });
+    check("v2 NEW M46 Descovy: “Descovy”, “TAF” and “tenofovir alafenamide” all find it", function () {
+      var name = "Emtricitabine / tenofovir alafenamide (TAF)";
+      return all(expect(Engine.evaluate(table, ctx("G3a"), add("Descovy", "prescribed")).checkedAs, name),
+                 expect(Engine.evaluate(table, ctx("G3a"), add("TAF", "prescribed")).checkedAs, name),
+                 expect(Engine.evaluate(table, ctx("G3a"), add("tenofovir alafenamide", "prescribed")).checkedAs, name));
+    });
+    check("v2 Typing “tenofovir” shows both the TDF row (M39) and the TAF row (M46)", function () {
+      var keys = Engine.search(table, "tenofovir").map(function (h) { return h.key; });
+      var tdf = table.families.filter(function (f) { return f.rows.indexOf("M39") >= 0; })[0].key;
+      var taf = table.families.filter(function (f) { return f.rows.indexOf("M46") >= 0; })[0].key;
+      return keys.indexOf(tdf) >= 0 && keys.indexOf(taf) >= 0 ? null : "got: " + titles("tenofovir").join(", ");
+    });
+    check("v2 NEW M46 Descovy stages from its label: No change 1–3b, Not recommended 4 and 5, Dose check on dialysis", function () {
+      return all(stagesAre("Descovy", "prescribed", ["OK", "OK", "OK", "AVOID", "AVOID", "DOSE"]),
+                 expect(codeAt("Descovy", "prescribed", "Transplant"), "NA"), expect(codeAt("Descovy", "prescribed", "Unknown"), "ASK"));
+    });
+    check("v2 NEW M46 Descovy note says TAF is newer and easier on the kidneys than Truvada / TDF", function () {
+      return expect(noteAt("Descovy", "prescribed", "G4"),
+        "Descovy (TAF) is the newer form of tenofovir. It is easier on the kidneys than the older form (Truvada, also called TDF).");
+    });
+    check("v2 Truvada (M39) is unchanged", function () {
+      return stagesAre("Truvada", "prescribed", ["OK", "ASK", "ASK", "AVOID", "AVOID", "AVOID"]);
+    });
+
+    runUiTests(table).then(function (uiResults) {
+      report(results, uiResults);
+    });
+  }).catch(function (e) {
+    document.getElementById("summary").textContent = "Could not run: " + e.message;
+  });
+
+  function report(results, uiResults) {
+    function list(id, rows) {
+      rows.forEach(function (r) {
+        var li = document.createElement("li");
+        li.className = r.problem ? "fail" : "pass";
+        li.textContent = (r.problem ? "✗ FAIL: " : "✓ PASS: ") + r.name + (r.problem ? " (" + r.problem + ")" : "");
+        document.getElementById(id).appendChild(li);
+      });
+    }
+    list("list", results);
+    list("ui-list", uiResults);
+    var everything = results.concat(uiResults);
+    var failed = everything.filter(function (r) { return r.problem; }).length;
+    var summary = document.getElementById("summary");
+    summary.className = failed ? "fail" : "pass";
+    summary.textContent = failed
+      ? failed + " of " + everything.length + " FAILED"
+      : "All " + everything.length + " tests passed (" + results.length + " rules, " + uiResults.length + " on the real site)";
+  }
+
+  /* --- The real site in a phone-sized frame --- */
+  async function runUiTests() {
+    var KEY = "kidney-med-checker-v0";
+    var out = [];
+    var mine = null;
+    try { mine = localStorage.getItem(KEY); localStorage.removeItem(KEY); } catch (e) { /* storage blocked */ }
+    var frame = document.createElement("iframe");
+    frame.title = "Site under test";
+    document.getElementById("ui-area").appendChild(frame);
+
+    var W = function () { return frame.contentWindow; };
+    var D = function () { return W().document; };
+    var text = function () { return D().getElementById("app").innerText; };
+    var sleep = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
+    async function waitFor(fn, ms) {
+      for (var t = 0; t < (ms || 6000); t += 50) { try { if (fn()) return true; } catch (e) { /* not ready */ } await sleep(50); }
+      throw new Error("timed out waiting");
+    }
+    async function load() {
+      frame.src = "index.html?src=test&t=" + Date.now();
+      await new Promise(function (r) { frame.onload = r; });
+      await waitFor(function () { return D().getElementById("screen-title"); });
+    }
+    function buttons() { return Array.prototype.slice.call(D().querySelectorAll("button")); }
+    async function click(label) {
+      var b = buttons().filter(function (x) { return x.textContent.trim().replace(/^✓ /, "").indexOf(label) === 0 || x.getAttribute("aria-label") === label; })[0];
+      if (!b) throw new Error("no button “" + label + "” on: " + text().slice(0, 90).replace(/\n/g, " "));
+      b.click();
+      await sleep(180);
+    }
+    async function type(id, value) {
+      var input = D().getElementById(id);
+      input.value = value;
+      input.dispatchEvent(new (W().Event)("input", { bubbles: true }));
+      await sleep(60);
+    }
+    async function pickResult(title) {
+      var b = Array.prototype.slice.call(D().querySelectorAll(".result-option")).filter(function (x) {
+        return !title || x.querySelector("strong").textContent === title;
+      })[0];
+      if (!b) throw new Error("no search result " + title);
+      b.click();
+      await sleep(180);
+    }
+    async function addMed(query, source, opts) {
+      opts = opts || {};
+      await type("search", query);
+      await pickResult(opts.title);
+      if (opts.answer) await click(opts.answer);
+      await click(source);
+      if (opts.dose) await type("dose", opts.dose);
+      await click("Add to my list");
+      await sleep(250);
+    }
+    async function back() { W().history.back(); await sleep(250); }
+    function listCount() { return D().querySelectorAll(".my-list .list-row").length; }
+    function saved() { try { return localStorage.getItem(KEY); } catch (e) { return "blocked"; } }
+    function layoutProblem() {
+      var wide = D().documentElement.scrollWidth > W().innerWidth;
+      var small = buttons().filter(function (b) { return b.offsetParent && b.offsetHeight < 48; })
+        .map(function (b) { return b.textContent.trim() + " " + b.offsetHeight + "px"; });
+      return all(wide && "page scrolls sideways", small.length && "buttons under 48px: " + small.join(", "));
+    }
+    async function ui(name, fn) {
+      var problem;
+      try { problem = await fn(); } catch (e) { problem = "crashed: " + e.message; }
+      out.push({ name: name, problem: problem || null });
+    }
+
+    try {
+      await ui("CHANGED (v2): Stage screen at 360 px: big buttons, no sideways scroll, header now (V2), footer disclaimer", async function () {
+        await load();
+        return all(layoutProblem(), expect(D().querySelector("h1").textContent, "Kidney-Safe Medication Checker (V2)"),
+                   expect(D().title, "Kidney-Safe Medication Checker (V2)"),
+                   expect(D().querySelector("footer").textContent, "Educational tool, not medical advice. Draft guidance pending nephrologist review. Never stop or change a prescribed medicine without calling your doctor."));
+      });
+      await ui("Decision 7: “On dialysis” + Jardiance goes straight to results, no eGFR question", async function () {
+        await load();
+        await click("On dialysis");
+        await addMed("Jardiance", "Prescribed by my doctor");
+        await click("See my results");
+        return all(text().indexOf("Your results") < 0 && "not on results", /most recent eGFR/.test(text()) && "asked for eGFR",
+                   text().indexOf("Not recommended") < 0 && "dialysis result should be Not recommended");
+      });
+      await ui("eGFR entry screen tells dialysis patients they don't need an eGFR number", async function () {
+        await load();
+        await click("Enter my eGFR number");
+        return text().indexOf(T.egfrDialysisNote) < 0 ? "dialysis note missing" : null;
+      });
+      await ui("Stage 4 + Jardiance asks the eGFR follow-up; 20 → Consult your doctor", async function () {
+        await load();
+        await click("Stage 4");
+        await addMed("Jardiance", "Prescribed by my doctor");
+        await click("See my results");
+        var asked = text().indexOf(T.followupIntro) >= 0;
+        await type("egfr-followup", "20");
+        await click("Continue");
+        return all(!asked && "follow-up not asked", text().indexOf("from your eGFR of 20") < 0 && "eGFR not shown",
+                   text().indexOf("Consult your doctor") < 0 && "wrong result");
+      });
+      await ui("Alka-Seltzer asks the aspirin question (Yes / No / Not sure) and shows the answer in the list", async function () {
+        await load();
+        await click("Stage 3a");
+        await type("search", "alka-seltzer");
+        await pickResult("Alka-Seltzer / Alka-Seltzer Plus");
+        var asked = text().indexOf("Look at the 'Active ingredients' box on the package. Does it list aspirin?") >= 0;
+        var three = ["Yes", "No", "Not sure"].every(function (l) { return buttons().some(function (b) { return b.textContent.trim() === l; }); });
+        await click("Yes");
+        await click("Bought it myself");
+        await click("Add to my list");
+        await sleep(250);
+        return all(!asked && "question not shown", !three && "answer buttons missing",
+                   text().indexOf("The box lists aspirin") < 0 && "answer not shown in list", expect(listCount(), 1));
+      });
+      await ui("CHANGED (v2): Results page: results come before the “My medicines” list; “+ Add another medicine” is still the main button", async function () {
+        await addMed("Advil", "Bought it myself");
+        await click("See my results");
+        var list = D().querySelector(".my-list"), card = D().querySelector(".card");
+        var addButton = buttons().filter(function (b) { return b.textContent.trim() === T.addAnother && b.classList.contains("btn"); })[0];
+        var firstPrimary = D().querySelector("button.btn.primary");
+        return all(!list && "no list", list && card && !(card.compareDocumentPosition(list) & 4) && "results are not above the list",
+                   expect(listCount(), 2), !addButton && "no add button", firstPrimary !== addButton && "add is not the main button",
+                   D().querySelectorAll(".my-list button").length !== 4 && "each item needs Edit and Remove",
+                   text().indexOf("Alka-Seltzer / Alka-Seltzer Plus + Advil: both contain an NSAID or aspirin") < 0 && "double-up alert missing");
+      });
+      await ui("“+ Add another medicine” returns to the medicines screen with the list intact; Back returns to results", async function () {
+        await click(T.addAnother);
+        var onMeds = !!D().getElementById("search") && text().indexOf(T.searchQuestionMore) >= 0;
+        var count = listCount();
+        await back();
+        return all(!onMeds && "not on the medicines screen", expect(count, 2), text().indexOf("Your results") < 0 && "Back did not return to results");
+      });
+      await ui("“Change my kidney stage” keeps the list and shows the new stage", async function () {
+        await click(T.changeStage);
+        await click("Stage 3b");
+        return all(text().indexOf("Your kidney stage: Stage 3b") < 0 && "stage not changed", expect(listCount(), 2),
+                   text().indexOf("Your results") < 0 && "not back on results");
+      });
+      await ui("Edit an item: change Advil to prescribed with a dose; the result updates, the list keeps 2 items", async function () {
+        await click("Edit Advil");
+        var marked = buttons().some(function (b) { return b.textContent.trim() === "✓ Bought it myself"; });
+        await click("Prescribed by my doctor");
+        var saveLabel = buttons().some(function (b) { return b.textContent.trim() === "Save changes"; });
+        await type("dose", "400 mg");
+        await click("Save changes");
+        await sleep(250);
+        return all(!marked && "current answer not marked", !saveLabel && "no Save changes button", expect(listCount(), 2),
+                   text().indexOf("Prescribed by my doctor · 400 mg") < 0 && "edit not saved",
+                   text().indexOf("Dose may need adjusting") < 0 && "result did not update",
+                   text().indexOf("Because your doctor prescribed this") < 0 && "safety message missing");
+      });
+      await ui("Edit the Alka-Seltzer answer to “No”: the aspirin double-up alert goes away", async function () {
+        await click("Edit Alka-Seltzer / Alka-Seltzer Plus");
+        await click("No");
+        await click("Bought it myself");
+        await click("Save changes");
+        await sleep(250);
+        return all(text().indexOf("both contain") >= 0 && "alert still shown", text().indexOf("The box does not list aspirin") < 0 && "answer not updated");
+      });
+      await ui("Remove an item from the results page", async function () {
+        await click("Remove Advil");
+        return expect(listCount(), 1);
+      });
+      await ui("“Clear my list and start over” is a small separate link; confirmation wording; No keeps the list", async function () {
+        var link = D().querySelector(".danger-zone .link-button");
+        var linkText = link && link.textContent;
+        await click(T.clearLink);
+        var question = text().indexOf(T.clearQuestion) >= 0, savedLine = text().indexOf(T.clearSavedLine) >= 0;
+        var big = layoutProblem();
+        await click(T.clearNo);
+        return all(expect(linkText, "Clear my list and start over"), !question && "question missing",
+                   savedLine && "saved line shown although nothing is saved", big, expect(listCount(), 1));
+      });
+      await ui("Yes on the confirmation erases the list and starts over", async function () {
+        await click(T.clearLink);
+        await click(T.clearYes);
+        var onStage = text().indexOf(T.stageQuestion) >= 0;
+        await click("Stage 1–2");
+        return all(!onStage && "not on the stage screen", expect(listCount(), 0), text().indexOf(T.emptyList) < 0 && "empty list message missing");
+      });
+      await ui("Keep-on-phone checkbox: new wording, off by default; checking it saves the list", async function () {
+        await load();
+        await click("Stage 3b");
+        await addMed("Tylenol", "Bought it myself");
+        await addMed("Metformin", "Thinking about taking it");
+        await click("See my results");
+        var box = D().querySelector(".keep input[type=checkbox]");
+        var label = D().querySelector(".keep label").textContent.trim();
+        var off = !box.checked;
+        box.click();
+        await sleep(100);
+        return all(expect(label, "Keep my list on this phone for next time"), text().indexOf(T.keepLine) < 0 && "plain line missing",
+                   !off && "was checked by default", !saved() && "list not saved",
+                   text().indexOf("Consult your doctor") < 0 && "metformin (thinking about it) should be Consult your doctor");
+      });
+      await ui("With the list kept, the clear confirmation also says the saved list will be erased", async function () {
+        await click(T.clearLink);
+        var has = text().indexOf(T.clearSavedLine) >= 0;
+        await click(T.clearNo);
+        return all(!has && "saved-list line missing", !saved() && "No should keep the saved list");
+      });
+      await ui("Coming back: “Welcome back. You have 2 medicines saved.” → “Check them again” shows results; Back shows the list", async function () {
+        await load();
+        var welcome = text().indexOf("Welcome back. You have 2 medicines saved.") >= 0;
+        var bothButtons = buttons().some(function (b) { return b.textContent.trim() === T.welcomeAgain; }) &&
+                          buttons().some(function (b) { return b.textContent.trim() === T.welcomeNew; });
+        await click(T.welcomeAgain);
+        var results = text().indexOf("Your results") >= 0 && listCount() === 2;
+        await back();
+        return all(!welcome && "welcome text wrong: " + text().slice(0, 80), !bothButtons && "welcome buttons missing",
+                   !results && "results not shown", !D().getElementById("search") && "Back did not go to the medicines screen", expect(listCount(), 2));
+      });
+      await ui("Clearing with the list kept erases it from this phone", async function () {
+        await click(T.seeResults);
+        await click(T.clearLink);
+        await click(T.clearYes);
+        var gone = !saved();
+        await load();
+        return all(!gone && "still saved", text().indexOf("Welcome back") >= 0 && "welcome shown after clearing");
+      });
+      await ui("“Start a new list” on the welcome screen starts empty and erases the saved list", async function () {
+        await click("Stage 4");
+        await addMed("Lithium", "Prescribed by my doctor");
+        await click("See my results");
+        D().querySelector(".keep input[type=checkbox]").click();
+        await sleep(100);
+        await load();
+        await click(T.welcomeNew);
+        var onStage = text().indexOf(T.stageQuestion) >= 0;
+        var gone = !saved();
+        await load();
+        return all(!onStage && "not on the stage screen", !gone && "saved list not erased", text().indexOf("Welcome back") >= 0 && "welcome shown again");
+      });
+      await ui("If the phone blocks saving, the checkbox unticks and says so; the checker still works", async function () {
+        await load();
+        Object.defineProperty(W(), "localStorage", { get: function () { throw new Error("blocked"); } });
+        await click("Stage 3a");
+        await addMed("Tylenol", "Bought it myself");
+        await click("See my results");
+        var box = D().querySelector(".keep input[type=checkbox]");
+        box.click();
+        await sleep(100);
+        return all(box.checked && "still ticked", text().indexOf(T.keepBlocked) < 0 && "no message", text().indexOf("No change needed") < 0 && "results broken");
+      });
+      await ui("Typing “acyclovir” on the site lists Acyclovir and not Valacyclovir", async function () {
+        await load();
+        await click("Stage 3a");
+        await type("search", "acyclovir");
+        var names = Array.prototype.slice.call(D().querySelectorAll(".result-option strong")).map(function (s) { return s.textContent; });
+        return all(expect(names[0], "Acyclovir"), names.indexOf("Valacyclovir") >= 0 && "Valacyclovir listed");
+      });
+      await ui("Typed text stays plain text; printout shows dose and the Alka-Seltzer answer; smaller text; layout at 360 px", async function () {
+        await type("search", '<img src=x onerror="window.pwn=1">');
+        await click("Not on the list?");   // CHANGED (plain language): was "Not listed?"
+        await click("Thinking about taking it");
+        await click("Add to my list");
+        await sleep(250);
+        await type("search", "alka-seltzer");
+        await pickResult("Alka-Seltzer / Alka-Seltzer Plus");
+        await click("Not sure");
+        await click("Bought it myself");
+        await type("dose", "2 tablets");
+        await click("Add to my list");
+        await sleep(250);
+        await click("See my results");
+        var resultsLayout = layoutProblem();
+        await click(T.printButton);
+        var summary = text();
+        await back();
+        await click("Smaller text");
+        var size = W().getComputedStyle(D().documentElement).fontSize;
+        return all(W().pwn && "typed HTML ran", D().querySelector("#app img") && "typed HTML became an image", resultsLayout,
+                   summary.indexOf("Summary for my doctor") < 0 && "no summary",
+                   summary.indexOf("Not sure if the box lists aspirin · 2 tablets") < 0 && "answer or dose missing on printout",
+                   expect(size, "18px"));
+      });
+      await ui("FOLLOW-UP On the site: Advil + Alka-Seltzer “Not sure” shows the “may contain aspirin” alert", async function () {
+        await load();
+        await click("Stage 3a");
+        await addMed("Advil", "Bought it myself");
+        await type("search", "alka-seltzer");
+        await pickResult("Alka-Seltzer / Alka-Seltzer Plus");
+        await click("Not sure");
+        await click("Bought it myself");
+        await click("Add to my list");
+        await sleep(250);
+        await click("See my results");
+        return text().indexOf("Advil contains an NSAID and Alka-Seltzer / Alka-Seltzer Plus may contain aspirin") < 0
+          ? "heading missing" : layoutProblem();
+      });
+      await ui("v2 Results page order at 360 px: heading, stage, small add link, alerts, cards, list, add, change stage, print, keep box, clear link", async function () {
+        var q = function (sel) { return D().querySelector(sel); };
+        var mainAdd = buttons().filter(function (b) { return b.classList.contains("primary") && b.textContent.trim() === T.addAnother; })[0];
+        var change = buttons().filter(function (b) { return b.textContent.trim() === T.changeStage; })[0];
+        var print = buttons().filter(function (b) { return b.textContent.trim() === T.printButton; })[0];
+        var order = [["heading", q("#screen-title")], ["stage line", q(".stage-line")], ["small add link", q(".top-add")],
+                     ["double-up alert", q(".alert")], ["result card", q(".card")], ["My medicines", q(".my-list")],
+                     ["main add button", mainAdd], ["change stage", change], ["print", print], ["keep box", q(".keep")],
+                     ["clear link", q(".danger-zone .link-button")]];
+        var missing = order.filter(function (o) { return !o[1]; }).map(function (o) { return o[0]; });
+        if (missing.length) return "missing: " + missing.join(", ");
+        var wrong = [];
+        for (var i = 1; i < order.length; i++) {
+          if (!(order[i - 1][1].compareDocumentPosition(order[i][1]) & 4)) wrong.push(order[i - 1][0] + " should come before " + order[i][0]);
+        }
+        return all(wrong.length && wrong.join("; "), expect(q(".top-add").textContent, T.addAnother), layoutProblem(),
+                   q(".danger-zone").nextElementSibling && "clear link is not at the very bottom");
+      });
+      await ui("v2 The small “+ Add another medicine” link opens the medicines screen with the list kept; results open scrolled to the top", async function () {
+        D().querySelector(".top-add").click();
+        await sleep(200);
+        var onMeds = !!D().getElementById("search") && listCount() === 2;
+        W().scrollTo(0, 3000);
+        var scrolled = W().scrollY;
+        await click(T.seeResults);
+        return all(!onMeds && "link did not open the medicines screen with the list", scrolled === 0 && "page too short to test scrolling",
+                   W().scrollY !== 0 && "results did not open at the top (scrollY " + W().scrollY + ")");
+      });
+    } finally {
+      try { if (mine === null) localStorage.removeItem(KEY); else localStorage.setItem(KEY, mine); } catch (e) { /* blocked */ }
+      frame.remove();
+    }
+    return out;
+  }
+  </script>
+</body>
+</html>

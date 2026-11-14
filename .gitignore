@@ -1,0 +1,21 @@
+# Review spreadsheets stay private (all Excel files, including ~$ lock files)
+*.xlsx
+~$*
+
+# Raw openFDA downloads and label-check working files
+labels/
+
+# Private reviewer correspondence
+Pramod_*.txt
+
+# Scripts that embed Dr. Pramod's review notes and decisions (kept private)
+scripts/*
+!scripts/build_data.py
+!scripts/fetch_labels.py
+
+# macOS and caches
+.DS_Store
+__pycache__/
+*.pyc
+.pytest_cache/
+.cache/
