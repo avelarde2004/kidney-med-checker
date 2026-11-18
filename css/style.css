@@ -171,6 +171,18 @@ input[type="text"], input[type="search"], input[type="date"] {
   border-radius: 10px;
 }
 .card h3, .alert h3 { margin-top: 0; margin-bottom: 0; overflow-wrap: anywhere; }
+/* The small tag on the medicine added (or edited) most recently, which is always the top card. */
+.just-added {
+  display: inline-block;
+  margin: 0 0 0.4rem;
+  padding: 0.1rem 0.55rem;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
 .did-you-mean { margin-bottom: 0; }
 .headline {
   display: flex;

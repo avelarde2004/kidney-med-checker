@@ -31,6 +31,7 @@ window.KMC_TEXT = {
   "emptyList": "Your list is empty.",
   "seeResults": "See my results",
   "addAnother": "+ Add another medicine",
+  "justAdded": "Just added",
   "changeStage": "Change my kidney stage",
   "printButton": "Print or show my doctor",
   "keepLabel": "Keep my list on this phone for next time",

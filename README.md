@@ -41,7 +41,7 @@ python3 -m http.server 8000
 Then open:
 
 - **http://localhost:8000** for the checker
-- **http://localhost:8000/tests.html** for the automated tests. The page runs on its own and shows "All 136 tests passed…" at the top within a few seconds.
+- **http://localhost:8000/tests.html** for the automated tests. The page runs on its own and shows "All 142 tests passed…" at the top within a few seconds.
 
 Stop the server with Control+C. You can't open the site by double-clicking `index.html`, because browsers block it from reading `data/table.json` that way. To try it on a phone on the same Wi-Fi, open `http://YOUR-COMPUTER-IP:8000` (on a Mac, find the IP with `ipconfig getifaddr en0`).
 
@@ -52,7 +52,7 @@ Stop the server with Control+C. You can't open the site by double-clicking `inde
 [`tests.html`](tests.html) has two parts:
 
 1. **Medical rules (112 tests).** It checks the decision engine (`js/engine.js`) against the real table: expected results for each stage, combination products, double-up warnings, eGFR follow-up questions, search, and the exact wording patients see.
-2. **The real site at phone width (24 tests).** It loads the actual website in a 360-pixel-wide frame and clicks through it like a patient would. It checks that buttons are big enough to tap (at least 48 px), that nothing scrolls sideways, and that results, editing, the saved list, the printout, and the disclaimer behave correctly.
+2. **The real site at phone width (30 tests).** It loads the actual website in a 360-pixel-wide frame and clicks through it like a patient would. It checks that buttons are big enough to tap (at least 48 px), that nothing scrolls sideways, and that results, editing, the saved list, the printout, and the disclaimer behave correctly. It also checks the newest-first order: the medicine just added (or edited) is the top card with a "Just added" tag, then any double-up alerts, then the rest, newest to oldest, in the list and printout too.
 
 The tests save and restore any medicine list stored in that browser, so running them won't erase your own list.
 
@@ -84,7 +84,7 @@ The tests save and restore any medicine list stored in that browser, so running 
 
 - [**Evaluation summary**](results/evaluation_summary.md): how often the AI-drafted table matched the nephrologist's final answers, with and without the FDA label check, plus reading levels.
 - [**Label check summary**](results/label_check_summary.md): 42 medicines compared with their FDA labels. 20 agree, 13 where the nephrologist's rule is stricter than the label, 4 where the label is silent, 3 with no label, and 2 where the label is stricter.
-- [**Test results**](results/test_results.md): all 136 tests pass on the live site (112 rules, 24 on the real site).
+- [**Test results**](results/test_results.md): all 142 tests pass (112 rules, 30 on the real site).
 - **Screenshots** of the live site at phone width (390 px):
 
 | Stage screen | Results with a double-up alert | "My medicines" list | Printout for the doctor |

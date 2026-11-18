@@ -24,7 +24,7 @@
   <h2>The real site at phone width (360 px)</h2>
   <ul id="ui-list"></ul>
   <div id="ui-area"></div>
-  <script src="js/text.js?v=e4146a2474"></script>
+  <script src="js/text.js?v=b667a2ba8d"></script>
   <script src="js/engine.js?v=18e0c38dc8"></script>
   <script>
   var T = window.KMC_TEXT;
@@ -931,13 +931,14 @@
         return text().indexOf("Advil contains an NSAID and Alka-Seltzer / Alka-Seltzer Plus may contain aspirin") < 0
           ? "heading missing" : layoutProblem();
       });
-      await ui("v2 Results page order at 360 px: heading, stage, small add link, alerts, cards, list, add, change stage, print, keep box, clear link", async function () {
+      await ui("CHANGED (newest first): Results page order at 360 px: heading, stage, small add link, newest card, alerts, older cards, list, add, change stage, print, keep box, clear link", async function () {
         var q = function (sel) { return D().querySelector(sel); };
         var mainAdd = buttons().filter(function (b) { return b.classList.contains("primary") && b.textContent.trim() === T.addAnother; })[0];
         var change = buttons().filter(function (b) { return b.textContent.trim() === T.changeStage; })[0];
         var print = buttons().filter(function (b) { return b.textContent.trim() === T.printButton; })[0];
+        var cards = D().querySelectorAll(".card");
         var order = [["heading", q("#screen-title")], ["stage line", q(".stage-line")], ["small add link", q(".top-add")],
-                     ["double-up alert", q(".alert")], ["result card", q(".card")], ["My medicines", q(".my-list")],
+                     ["newest card", cards[0]], ["double-up alert", q(".alert")], ["older card", cards[1]], ["My medicines", q(".my-list")],
                      ["main add button", mainAdd], ["change stage", change], ["print", print], ["keep box", q(".keep")],
                      ["clear link", q(".danger-zone .link-button")]];
         var missing = order.filter(function (o) { return !o[1]; }).map(function (o) { return o[0]; });
@@ -958,6 +959,109 @@
         await click(T.seeResults);
         return all(!onMeds && "link did not open the medicines screen with the list", scrolled === 0 && "page too short to test scrolling",
                    W().scrollY !== 0 && "results did not open at the top (scrollY " + W().scrollY + ")");
+      });
+
+      /* Newest first (requested by Dr. Pramod): the medicine just added is the top card, with a "Just added" tag;
+         then the double-up alerts; then the other cards newest to oldest. The list and printout use the same order. */
+      function cardTitles() {
+        return Array.prototype.slice.call(D().querySelectorAll(".card h3")).map(function (e) { return e.textContent; }).join(" | ");
+      }
+      function listTitles() {
+        return Array.prototype.slice.call(D().querySelectorAll(".my-list .list-name strong")).map(function (e) { return e.textContent; }).join(" | ");
+      }
+      function printTitles() {
+        return Array.prototype.slice.call(D().querySelectorAll(".summary-row strong:first-child")).map(function (e) { return e.textContent; }).join(" | ");
+      }
+      function tags() {
+        return Array.prototype.slice.call(D().querySelectorAll(".just-added"));
+      }
+      // Each element after the first .card, up to the next .card, must be an alert; then the remaining cards.
+      function alertsRightAfterNewest() {
+        var first = D().querySelector(".card"), next = first && first.nextElementSibling, alerts = 0;
+        while (next && next.classList.contains("alert")) { alerts++; next = next.nextElementSibling; }
+        if (!alerts) return "no alert right after the newest card";
+        if (D().querySelectorAll(".alert").length !== alerts) return "an alert is not right after the newest card";
+        return next && next.classList.contains("card") ? null : "older cards do not follow the alerts";
+      }
+
+      await ui("NEW Newest first: Advil, then Metformin, then Aleve → cards Aleve | Metformin | Advil; alert right after the newest card; “Just added” only on the top card; 360 px", async function () {
+        await load();
+        await click("Stage 3b");
+        await addMed("Advil", "Bought it myself");
+        await addMed("Metformin", "Prescribed by my doctor");
+        await addMed("Aleve", "Bought it myself");
+        var medsList = listTitles();
+        await click(T.seeResults);
+        var t = tags();
+        return all(expect(cardTitles(), "Aleve | Metformin | Advil"), alertsRightAfterNewest(),
+                   expect(t.length, 1), t[0] && t[0].closest(".card") !== D().querySelector(".card") && "tag is not on the top card",
+                   t[0] && expect(t[0].textContent, "Just added"),
+                   text().indexOf("Advil + Aleve: both contain an NSAID") < 0 && "alert wording changed",
+                   expect(medsList, "Aleve | Metformin | Advil"), expect(listTitles(), "Aleve | Metformin | Advil"), layoutProblem());
+      });
+      await ui("NEW Newest first: the printout uses the same order (newest, alerts, the rest)", async function () {
+        await click(T.printButton);
+        var rows = D().querySelectorAll(".summary-row"), alert = D().querySelector(".alert");
+        var between = rows[0] && alert && (rows[0].compareDocumentPosition(alert) & 4) && (alert.compareDocumentPosition(rows[1]) & 4);
+        var titles = printTitles();
+        await back();
+        return all(expect(titles, "Aleve | Metformin | Advil"), !between && "alert is not between the newest row and the rest");
+      });
+      await ui("NEW Editing a medicine moves it to the top with the “Just added” tag; results and alert wording unchanged", async function () {
+        await click("Edit Advil");
+        await click("Bought it myself");
+        await type("dose", "200 mg");
+        await click("Save changes");
+        await sleep(250);
+        var t = tags(), top = D().querySelector(".card");
+        return all(expect(cardTitles(), "Advil | Aleve | Metformin"), expect(listTitles(), "Advil | Aleve | Metformin"),
+                   expect(t.length, 1), t[0] && t[0].closest(".card") !== top && "tag is not on the top card",
+                   top.textContent.indexOf("Not recommended") < 0 && "Advil result changed", alertsRightAfterNewest(),
+                   text().indexOf("Advil + Aleve: both contain an NSAID") < 0 && "alert wording changed", expect(listCount(), 3));
+      });
+      await ui("NEW Adding after an edit puts the new medicine on top; the edited one comes next", async function () {
+        await click(T.addAnother);
+        await addMed("Tylenol", "Bought it myself");
+        await click(T.seeResults);
+        return all(expect(cardTitles(), "Tylenol | Advil | Aleve | Metformin"), expect(listTitles(), "Tylenol | Advil | Aleve | Metformin"),
+                   expect(tags().length, 1), alertsRightAfterNewest(), layoutProblem());
+      });
+      await ui("NEW One medicine: one card with the “Just added” tag, no alert, list of 1, printout works", async function () {
+        await load();
+        await click("Stage 4");
+        await addMed("Lithium", "Prescribed by my doctor");
+        await click(T.seeResults);
+        var ok = all(expect(cardTitles(), "Lithium"), expect(tags().length, 1), D().querySelector(".alert") && "unexpected alert",
+                     expect(listTitles(), "Lithium"), text().indexOf("Dose may need adjusting") < 0 && "result missing", layoutProblem());
+        await click(T.printButton);
+        var printed = printTitles();
+        await back();
+        return all(ok, expect(printed, "Lithium"));
+      });
+      await ui("NEW A list saved before this change (no “added” numbers) still loads, oldest-added shown last", async function () {
+        await load();
+        await click("Stage 3a");
+        await addMed("Advil", "Bought it myself");
+        await addMed("Aleve", "Bought it myself");
+        await addMed("Tylenol", "Bought it myself");
+        await click(T.seeResults);
+        D().querySelector(".keep input[type=checkbox]").click();
+        await sleep(100);
+        var old = JSON.parse(saved());
+        old.items.forEach(function (item) { delete item.addedAt; });   // the format saved before this change
+        localStorage.setItem(KEY, JSON.stringify(old));
+        await load();
+        var welcome = text().indexOf("Welcome back. You have 3 medicines saved.") >= 0;
+        await click(T.welcomeAgain);
+        var order = cardTitles();
+        await click("Edit Advil");
+        await click("Bought it myself");
+        await click("Save changes");
+        await sleep(250);
+        var afterEdit = cardTitles();
+        localStorage.removeItem(KEY);
+        return all(!welcome && "old list did not load", expect(order, "Tylenol | Aleve | Advil"),
+                   expect(afterEdit, "Advil | Tylenol | Aleve"), alertsRightAfterNewest());
       });
     } finally {
       try { if (mine === null) localStorage.removeItem(KEY); else localStorage.setItem(KEY, mine); } catch (e) { /* blocked */ }

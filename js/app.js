@@ -200,11 +200,31 @@
     go(Engine.questionFor(table, pending) ? "answer" : "source");
   }
 
+  // Every screen shows medicines newest first, so the one just added (or edited) is always at the top.
+  // Each item gets an "addedAt" number when it is added or edited. state.items itself keeps its order,
+  // so double-up alert wording never changes. Lists saved before addedAt existed have no numbers;
+  // their place in the list (oldest first) stands in for it, so they load in the same order as before.
+  function addedAt(item, index) {
+    return typeof item.addedAt === "number" ? item.addedAt : index;
+  }
+
+  function nextStamp() {
+    return state.items.reduce(function (most, item, i) { return Math.max(most, addedAt(item, i)); }, -1) + 1;
+  }
+
+  // Takes a list parallel to state.items and returns it newest first.
+  function newestFirst(list) {
+    return list.map(function (entry, i) { return [entry, addedAt(state.items[i], i), i]; })
+      .sort(function (a, b) { return b[1] - a[1] || b[2] - a[2]; })
+      .map(function (x) { return x[0]; });
+  }
+
   function myMedicines() {
     var box = h("section", { class: "my-list", "aria-labelledby": "my-list-title" },
       h("h3", { id: "my-list-title" }, T.myMedicines + " (" + state.items.length + ")"));
     if (!state.items.length) box.appendChild(h("p", { class: "hint" }, T.emptyList));
-    state.items.forEach(function (item, index) {
+    newestFirst(state.items.map(function (item, index) { return [item, index]; })).forEach(function (pair) {
+      var item = pair[0], index = pair[1];
       box.appendChild(h("div", { class: "list-row" },
         h("div", { class: "list-name" }, h("strong", null, item.title), h("span", { class: "detail" }, itemDetail(item))),
         h("div", { class: "list-actions" },
@@ -381,6 +401,7 @@
         var item = pending;
         item.dose = input.value.trim();
         var back = stack.length - 1 - item.returnDepth;
+        item.addedAt = nextStamp();   // added or edited just now, so it becomes the newest
         if (editing) state.items[item.editIndex] = item;
         else state.items.push(item);
         delete item.editIndex;
@@ -426,8 +447,23 @@
     ];
   };
 
+  // Results newest first (see newestFirst). Double-up alerts still read the list in stored order,
+  // so their wording is unchanged.
   function outcomes() {
-    return state.items.map(function (item) { return Engine.evaluate(table, state, item); });
+    return newestFirst(state.items.map(function (item) { return Engine.evaluate(table, state, item); }));
+  }
+
+  function resultCard(result, newest) {
+    return h("article", { class: "card r-" + result.code + (newest ? " newest" : "") },
+      newest ? h("p", { class: "just-added" }, T.justAdded) : null,
+      h("h3", null, result.item.title),
+      h("p", { class: "detail" }, itemDetail(result.item)),
+      result.checkedAs ? h("p", { class: "detail" }, "Checked as: " + result.checkedAs) : null,
+      h("div", { class: "headline" }, icon(result.code), h("strong", null, result.headline)),
+      h("p", null, result.explanation),
+      result.safety ? h("p", { class: "safety" }, result.safety) : null,
+      result.alert ? h("p", null, h("strong", null, result.alert)) : null,
+      result.notes.map(function (note) { return h("p", null, note); }));
   }
 
   function alertBox(alert) {
@@ -446,19 +482,11 @@
       h("p", { class: "stage-line" }, "Your kidney stage: ", h("strong", null, stageLine())),
       h("button", { type: "button", class: "link-button top-add", onclick: function () { go("meds"); } }, T.addAnother)
     ];
+    // Order: the newest medicine (tagged "Just added"), then the double-up alerts, then the rest, newest to oldest.
+    var results = outcomes();
+    if (results.length) body.push(resultCard(results[0], true));
     Engine.doubleUps(table, state.items).forEach(function (alert) { body.push(alertBox(alert)); });
-
-    outcomes().forEach(function (result) {
-      body.push(h("article", { class: "card r-" + result.code },
-        h("h3", null, result.item.title),
-        h("p", { class: "detail" }, itemDetail(result.item)),
-        result.checkedAs ? h("p", { class: "detail" }, "Checked as: " + result.checkedAs) : null,
-        h("div", { class: "headline" }, icon(result.code), h("strong", null, result.headline)),
-        h("p", null, result.explanation),
-        result.safety ? h("p", { class: "safety" }, result.safety) : null,
-        result.alert ? h("p", null, h("strong", null, result.alert)) : null,
-        result.notes.map(function (note) { return h("p", null, note); })));
-    });
+    results.slice(1).forEach(function (result) { body.push(resultCard(result, false)); });
 
     body.push(myMedicines());
     body.push(button(T.addAnother, function () { go("meds"); }, "primary"));
@@ -495,19 +523,21 @@
   };
 
   screens.summary = function () {
-    var list = h("div", { class: "summary-list" });
-    outcomes().forEach(function (result) {
-      list.appendChild(h("div", { class: "summary-row r-" + result.code },
+    function row(result) {
+      return h("div", { class: "summary-row r-" + result.code },
         h("div", null, h("strong", null, result.item.title),
           h("span", { class: "detail" }, [result.checkedAs, itemDetail(result.item)].filter(Boolean).join(" · "))),
-        h("div", { class: "headline" }, icon(result.code), h("strong", null, result.label))));
-    });
+        h("div", { class: "headline" }, icon(result.code), h("strong", null, result.label)));
+    }
+    // Same order as the results page: newest medicine, then the double-up alerts, then the rest.
+    var results = outcomes();
     return [
       title("Summary for my doctor"),
       h("p", null, h("strong", null, "Date: "), niceDate()),
       h("p", null, h("strong", null, "Kidney stage: "), stageLine()),
+      results.length ? h("div", { class: "summary-list" }, row(results[0])) : null,
       Engine.doubleUps(table, state.items).map(alertBox),
-      list,
+      results.length > 1 ? h("div", { class: "summary-list" }, results.slice(1).map(row)) : null,
       button("Print this page", function () { window.print(); }, "primary no-print")
     ];
   };
