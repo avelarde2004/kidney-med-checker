@@ -5,7 +5,7 @@
 | | |
 |---|---|
 | Date run | November 17, 2026 |
-| Page | http://localhost:8000/tests.html (local copy, before publishing) |
+| Page | https://avelarde2004.github.io/kidney-med-checker/tests.html (the live site) |
 | Browser | Google Chrome 157 (headless), on macOS |
 | Data | `data/table.json` built from the final nephrologist-approved table (v2) |
 
